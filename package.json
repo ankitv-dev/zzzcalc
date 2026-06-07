@@ -2,7 +2,6 @@
   "name": "zzzcalc",
   "type": "module",
   "version": "0.0.1",
-  "description": "Privacy-first, open-source sleep cycle calculator based on 90-minute REM cycles. Dark/light theme, power nap timer, visual sleep timeline.",
   "engines": {
     "node": ">=22.12.0"
   },

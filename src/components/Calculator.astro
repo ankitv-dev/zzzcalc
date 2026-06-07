@@ -1,45 +1,27 @@
 ---
-import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality, AGE_GROUPS, cycleRangeForAge } from "../lib/cycles.js";
-import Nav from "./Nav.astro";
-import Footer from "./Footer.astro";
+import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } from "../lib/cycles.js";
 ---
 
 <div id="calculator" class="w-full">
   <div class="card-primary">
     <form id="calc-form" class="contents">
       <div class="flex gap-1 p-1 rounded-lg mb-5" style="background: var(--bg-tab);">
-        <button type="button" id="mode-wake" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="wake" style="background: var(--color-primary); color: var(--color-on-primary);">
-          <span class="hidden sm:inline">Wake up at</span>
-          <span class="sm:hidden">Wake</span>
+        <button type="button" id="mode-wake" class="tab-btn flex-1 px-3 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="wake" style="background: var(--color-primary); color: var(--color-on-primary);">
+          <span class="hidden sm:inline">I want to wake up at</span>
+          <span class="sm:hidden">Wake up</span>
         </button>
-        <button type="button" id="mode-bed" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="bed" style="background: transparent; color: var(--text-muted);">
-          <span class="hidden sm:inline">Bed now</span>
-          <span class="sm:hidden">Bed</span>
-        </button>
-        <button type="button" id="mode-dur" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="dur" style="background: transparent; color: var(--text-muted);">
-          <span class="hidden sm:inline">Sleep length</span>
-          <span class="sm:hidden">Hours</span>
+        <button type="button" id="mode-bed" class="tab-btn flex-1 px-3 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="bed" style="background: transparent; color: var(--text-muted);">
+          <span class="hidden sm:inline">I'm going to bed now</span>
+          <span class="sm:hidden">Go to bed</span>
         </button>
       </div>
 
-      <div id="time-section" class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+      <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
         <div class="flex-1 min-w-0">
           <label class="sleep-label" for="time-input">Time</label>
           <input id="time-input" type="time" name="wake-time" autocomplete="off" class="sleep-input" value="07:00" />
         </div>
-        <div id="duration-section" class="flex-1 min-w-0 hidden">
-          <label class="sleep-label" for="hours-slider">
-            Sleep duration: <span id="hours-value" style="color: var(--color-primary); font-weight: 500;">7.5h</span>
-          </label>
-          <div class="flex items-center gap-2">
-            <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">4</span>
-            <input id="hours-slider" type="range" min="4" max="12" step="0.5" value="7.5"
-              class="flex-1 h-1.5 rounded-full appearance-none cursor-pointer"
-              style="background: var(--bg-soft); accent-color: var(--color-primary);" />
-            <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">12</span>
-          </div>
-        </div>
-        <div id="latency-section" class="flex-1 min-w-0">
+        <div class="flex-1 min-w-0">
           <label class="sleep-label" for="latency-slider">
             Latency: <span id="latency-value" style="color: var(--color-primary); font-weight: 500;">{DEFAULT_LATENCY} min</span>
           </label>
@@ -50,27 +32,11 @@ import Footer from "./Footer.astro";
               style="background: var(--bg-soft); accent-color: var(--color-primary);" />
             <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">45</span>
           </div>
+          <div class="flex justify-between mt-0.5">
+            <span class="text-[10px]" style="color: var(--text-muted-soft);">Fast sleeper</span>
+            <span class="text-[10px]" style="color: var(--text-muted-soft);">Slow sleeper</span>
+          </div>
         </div>
-      </div>
-
-      <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs" style="color: var(--text-muted);">
-        <div class="flex items-center gap-2">
-          <label for="cycle-length-slider">Cycle:</label>
-          <span id="cycle-length-value" class="font-medium" style="color: var(--color-primary);">90 min</span>
-          <input id="cycle-length-slider" type="range" min="40" max="120" step="1" value="90"
-            class="w-16 h-1 rounded-full appearance-none cursor-pointer"
-            style="background: var(--bg-soft); accent-color: var(--color-primary);" />
-        </div>
-        <div class="flex items-center gap-2">
-          <label for="age-select">Age:</label>
-          <select id="age-select" class="rounded-md px-2 py-1 text-xs"
-            style="background: var(--bg-soft); color: var(--text-card); border: 1px solid var(--border-card); font-family: var(--font-sans);">
-            {AGE_GROUPS.map((g) => <option value={g.id} selected={g.id === "adult"}>{g.label}</option>)}
-          </select>
-        </div>
-        <span id="chronotype-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full hidden"
-          style="font-size: 10px; background: color-mix(in srgb, var(--color-primary) 10%, transparent); color: var(--color-primary); border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent); cursor: pointer;">
-        </span>
       </div>
     </form>
 
@@ -96,111 +62,57 @@ import Footer from "./Footer.astro";
       </div>
       <div id="cycle-legend" class="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs" style="color: var(--text-muted);"></div>
     </div>
-
-    <div id="wind-down-container" class="mt-5 p-4 rounded-lg hidden" style="background: var(--bg-soft); border: 1px solid var(--border-card);">
-      <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--text-muted);">Wind-down timeline</span>
-      <div id="wind-down-list" class="mt-2 space-y-1.5 text-xs" style="color: var(--text-card-muted);"></div>
-    </div>
-
-    <div class="mt-4 flex flex-wrap gap-2 text-xs">
-      <button type="button" id="share-btn" class="hidden px-3 py-1.5 rounded-md"
-        style="background: var(--bg-soft); color: var(--text-muted); border: 1px solid var(--border-card); cursor: pointer; font-family: var(--font-sans); transition: background 0.15s;">
-        Share
-      </button>
-      <button type="button" id="reset-settings-btn" class="px-3 py-1.5 rounded-md"
-        style="background: transparent; color: var(--text-muted-soft); border: 1px solid transparent; cursor: pointer; font-family: var(--font-sans);">
-        Reset
-      </button>
-    </div>
   </div>
 </div>
 
 <script>
-  import { CYCLE_LENGTH, DEFAULT_LATENCY, getQuality, AGE_GROUPS, cycleRangeForAge, cycleLenForAge, chronotypeFromScore, formatDuration } from "../lib/cycles.js";
+  import { CYCLE_LENGTH, DEFAULT_LATENCY, getQuality } from "../lib/cycles.js";
   import { formatTime, formatHourMin, formatAmPm } from "../lib/format.js";
 
   const timeInput = document.getElementById("time-input");
   const latencySlider = document.getElementById("latency-slider");
   const latencyValue = document.getElementById("latency-value");
-  const hoursSlider = document.getElementById("hours-slider");
-  const hoursValue = document.getElementById("hours-value");
   const resultsList = document.getElementById("results-list");
   const resultsLabel = document.getElementById("results-label");
   const modeWake = document.getElementById("mode-wake");
   const modeBed = document.getElementById("mode-bed");
-  const modeDur = document.getElementById("mode-dur");
   const timelineContainer = document.getElementById("cycle-timeline-container");
   const timelineBars = document.getElementById("timeline-bars");
   const cycleLegend = document.getElementById("cycle-legend");
   const selectedCycleInfo = document.getElementById("selected-cycle-info");
-  const cycleLengthSlider = document.getElementById("cycle-length-slider");
-  const cycleLengthValue = document.getElementById("cycle-length-value");
-  const ageSelect = document.getElementById("age-select");
-  const chronotypeBadge = document.getElementById("chronotype-badge");
-  const windDownContainer = document.getElementById("wind-down-container");
-  const windDownList = document.getElementById("wind-down-list");
-  const shareBtn = document.getElementById("share-btn");
-  const resetBtn = document.getElementById("reset-settings-btn");
-  const durationSection = document.getElementById("duration-section");
-  const timeSection = document.getElementById("time-section");
-  const latencySection = document.getElementById("latency-section");
 
   let currentMode = "wake";
-  let selectedResultIdx = 0;
-  let activeResults = [];
+  let selectedCycles = 5;
   let copyTimer = null;
-  let cycleLen = 90;
-  let currentAgeId = "adult";
 
   function loadSettings() {
     try {
       const saved = localStorage.getItem("zzzcalc-settings");
-      let hasSavedCycleLen = false;
       if (saved) {
-        const s = JSON.parse(saved);
-        if (s.time) timeInput.value = s.time;
-        if (s.latency) { latencySlider.value = s.latency; latencyValue.textContent = `${s.latency} min`; }
-        if (s.mode) setMode(s.mode);
-        if (s.ageId) { ageSelect.value = s.ageId; currentAgeId = s.ageId; }
-        if (s.cycleLen) { cycleLengthSlider.value = s.cycleLen; cycleLen = s.cycleLen; hasSavedCycleLen = true; }
-        if (s.hours) { hoursSlider.value = s.hours; hoursValue.textContent = `${s.hours}h`; }
+        const settings = JSON.parse(saved);
+        if (settings.time) timeInput.value = settings.time;
+        if (settings.latency) {
+          latencySlider.value = settings.latency;
+          latencyValue.textContent = `${settings.latency} min`;
+        }
+        if (settings.mode) setMode(settings.mode);
       }
-      if (!hasSavedCycleLen) {
-        cycleLen = cycleLenForAge(ageSelect.value);
-        cycleLengthSlider.value = cycleLen;
-      }
-      cycleLengthValue.textContent = `${cycleLen} min`;
     } catch (e) {}
   }
 
   function saveSettings() {
     try {
-      localStorage.setItem("zzzcalc-settings", JSON.stringify({
+      const settings = {
         time: timeInput.value,
         latency: latencySlider.value,
         mode: currentMode,
-        cycleLen: parseInt(cycleLengthSlider.value, 10),
-        ageId: ageSelect.value,
-        hours: parseFloat(hoursSlider.value),
-      }));
-    } catch (e) {}
-  }
-
-  function loadChronotype() {
-    try {
-      const saved = localStorage.getItem("zzzcalc-chronotype");
-      if (saved) {
-        const ct = JSON.parse(saved);
-        chronotypeBadge.classList.remove("hidden");
-        chronotypeBadge.innerHTML = `<span>${ct.label}</span>`;
-        chronotypeBadge.title = `Chronotype: ${ct.label}. Click to retake quiz.`;
-      }
+      };
+      localStorage.setItem("zzzcalc-settings", JSON.stringify(settings));
     } catch (e) {}
   }
 
   function init() {
     loadSettings();
-    loadChronotype();
     setupEventListeners();
     setMode(currentMode);
     calculate();
@@ -214,42 +126,8 @@ import Footer from "./Footer.astro";
       calculate();
     });
     latencySlider.addEventListener("change", saveSettings);
-    hoursSlider.addEventListener("input", () => {
-      hoursValue.textContent = `${parseFloat(hoursSlider.value)}h`;
-      calculate();
-    });
-    hoursSlider.addEventListener("change", saveSettings);
-    modeWake.addEventListener("click", () => setMode("wake"));
-    modeBed.addEventListener("click", () => setMode("bed"));
-    modeDur.addEventListener("click", () => setMode("dur"));
-    cycleLengthSlider.addEventListener("input", () => {
-      cycleLen = parseInt(cycleLengthSlider.value, 10);
-      cycleLengthValue.textContent = `${cycleLen} min`;
-      calculate();
-    });
-    cycleLengthSlider.addEventListener("change", saveSettings);
-    ageSelect.addEventListener("change", () => {
-      currentAgeId = ageSelect.value;
-      const defaultCycle = cycleLenForAge(currentAgeId);
-      cycleLengthSlider.value = defaultCycle;
-      cycleLen = defaultCycle;
-      cycleLengthValue.textContent = `${defaultCycle} min`;
-      calculate();
-      saveSettings();
-    });
-    chronotypeBadge.addEventListener("click", () => {
-      localStorage.removeItem("zzzcalc-chronotype");
-      chronotypeBadge.classList.add("hidden");
-      calculate();
-    });
-    shareBtn.addEventListener("click", shareResults);
-    resetBtn.addEventListener("click", resetSettings);
-  }
-
-  function resetSettings() {
-    localStorage.removeItem("zzzcalc-settings");
-    localStorage.removeItem("zzzcalc-chronotype");
-    location.reload();
+    modeWake.addEventListener("click", () => { setMode("wake"); saveSettings(); });
+    modeBed.addEventListener("click", () => { setMode("bed"); saveSettings(); });
   }
 
   function setMode(mode) {
@@ -257,34 +135,19 @@ import Footer from "./Footer.astro";
     const activeBg = "var(--color-primary)";
     const activeText = "var(--color-on-primary)";
     const inactiveText = "var(--text-muted)";
-    const tStyle = (el, bg, color) => { el.style.background = bg; el.style.color = color; };
 
-    tStyle(modeWake, "transparent", inactiveText);
-    tStyle(modeBed, "transparent", inactiveText);
-    tStyle(modeDur, "transparent", inactiveText);
-
-    if (mode === "wake") tStyle(modeWake, activeBg, activeText);
-    else if (mode === "bed") tStyle(modeBed, activeBg, activeText);
-    else tStyle(modeDur, activeBg, activeText);
-
-    if (mode === "dur") {
-      durationSection.classList.remove("hidden");
-      latencySection.classList.add("hidden");
+    if (mode === "wake") {
+      modeWake.style.background = activeBg;
+      modeWake.style.color = activeText;
+      modeBed.style.background = "transparent";
+      modeBed.style.color = inactiveText;
     } else {
-      durationSection.classList.add("hidden");
-      latencySection.classList.remove("hidden");
+      modeWake.style.background = "transparent";
+      modeWake.style.color = inactiveText;
+      modeBed.style.background = activeBg;
+      modeBed.style.color = activeText;
     }
-
-    saveSettings();
     calculate();
-  }
-
-  function getChronotypeShift() {
-    try {
-      const saved = localStorage.getItem("zzzcalc-chronotype");
-      if (saved) return JSON.parse(saved).shift || 0;
-    } catch (e) {}
-    return 0;
   }
 
   function calculate() {
@@ -294,126 +157,50 @@ import Footer from "./Footer.astro";
     const now = new Date();
     const baseDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0);
     const latency = parseInt(latencySlider.value, 10) || DEFAULT_LATENCY;
-    const shift = getChronotypeShift();
 
-    if (currentMode === "wake") calculateBedtimes(baseDate, latency, shift);
-    else if (currentMode === "bed") calculateWakeTimes(baseDate, latency, shift);
-    else calculateFromDuration(shift);
-  }
-
-  function getCycleRange() {
-    const ageR = cycleRangeForAge(ageSelect.value);
-    return ageR || [MIN_CYCLES, MAX_CYCLES];
-  }
-
-  function calculateBedtimes(wakeTime, latency, shift) {
-    const results = [];
-    const [minC, maxC] = getCycleRange();
-    for (let cycles = minC; cycles <= maxC; cycles++) {
-      const totalMinutes = cycles * cycleLen;
-      const bedtime = new Date(wakeTime.getTime() - (totalMinutes + latency) * 60000 - shift * 60000);
-      results.push({ cycles, time: bedtime, totalMinutes, quality: getQuality(cycles) });
+    if (currentMode === "wake") {
+      calculateBedtimes(baseDate, latency);
+    } else {
+      calculateWakeTimes(baseDate, latency);
     }
-    activeResults = results;
+  }
+
+  function calculateBedtimes(wakeTime, latency) {
+    const results = [];
+    for (let cycles = MIN_CYCLES; cycles <= MAX_CYCLES; cycles++) {
+      const totalMinutes = cycles * CYCLE_LENGTH;
+      const bedtime = new Date(wakeTime.getTime() - (totalMinutes + latency) * 60000);
+      results.push({ cycles, time: bedtime, duration: totalMinutes / 60, quality: getQuality(cycles) });
+    }
     renderResults(results, "Go to bed at");
-    resultsLabel.textContent = shift ? `Bedtimes (adjusted ${shift > 0 ? "+" : ""}${shift}min for chronotype)` : "Optimal bedtimes";
+    resultsLabel.textContent = "Optimal bedtimes to wake up refreshed";
   }
 
-  function calculateWakeTimes(bedTime, latency, shift) {
+  function calculateWakeTimes(bedTime, latency) {
     const results = [];
-    const [minC, maxC] = getCycleRange();
-    for (let cycles = minC; cycles <= maxC; cycles++) {
-      const totalMinutes = cycles * cycleLen;
-      const wakeTime = new Date(bedTime.getTime() + (latency + totalMinutes) * 60000 + shift * 60000);
-      results.push({ cycles, time: wakeTime, totalMinutes, quality: getQuality(cycles) });
+    for (let cycles = MIN_CYCLES; cycles <= MAX_CYCLES; cycles++) {
+      const totalMinutes = cycles * CYCLE_LENGTH;
+      const wakeTime = new Date(bedTime.getTime() + (latency + totalMinutes) * 60000);
+      results.push({ cycles, time: wakeTime, duration: totalMinutes / 60, quality: getQuality(cycles) });
     }
-    activeResults = results;
     renderResults(results, "Wake up at");
-    resultsLabel.textContent = shift ? "Wake times (adjusted for chronotype)" : "Best times to set your alarm";
-  }
-
-  function calculateFromDuration(shift) {
-    const targetHours = parseFloat(hoursSlider.value) || 7.5;
-    const targetMinutes = targetHours * 60;
-    const bestCycles = Math.round(targetMinutes / cycleLen);
-    if (bestCycles < 3) return;
-    const now = new Date();
-    const wakeTime = new Date(now.getTime() + (targetMinutes + DEFAULT_LATENCY) * 60000 + shift * 60000);
-    const bedTime = new Date(now.getTime() + DEFAULT_LATENCY * 60000);
-    const results = [{
-      cycles: bestCycles,
-      time: wakeTime,
-      totalMinutes: targetMinutes,
-      quality: getQuality(bestCycles),
-      bedtime: bedTime,
-    }];
-    activeResults = results;
-    renderDurationResult(results[0]);
-  }
-
-  function renderDurationResult(r) {
-    resultsList.innerHTML = "";
-    const card = document.createElement("div");
-    card.className = "result-card result-card-selected";
-    card.innerHTML = `
-      <div class="flex-1 min-w-0">
-        <div class="text-xs mb-2" style="color: var(--text-muted);">Go to bed at <strong style="color: var(--text-card);">${formatHourMin(r.bedtime)} ${formatAmPm(r.bedtime)}</strong> to wake at</div>
-        <div class="flex items-baseline gap-1.5 mb-0.5">
-          <span class="time-display" style="font-size: clamp(1.1rem, 4vw, 1.5rem);">${formatHourMin(r.time)}</span>
-          <span class="text-xs font-medium" style="color: var(--text-muted);">${formatAmPm(r.time)}</span>
-        </div>
-        <div class="flex items-center gap-2 text-xs" style="color: var(--text-muted);">
-          <span>${r.cycles} cycles</span>
-          <span>·</span>
-          <span>${formatDuration(r.totalMinutes)}</span>
-        </div>
-      </div>
-      <div class="flex items-center gap-1.5 shrink-0">
-        <span style="color: ${r.quality.color}; font-size: 0.7rem; font-weight: 600; text-transform: uppercase;">${r.quality.label}</span>
-        <button class="copy-btn" data-time="${formatTime(r.time)}" title="Copy to clipboard"
-          style="padding: 0.375rem; border-radius: 0.375rem; border: none; cursor: pointer; background: transparent; color: var(--text-muted);">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
-          </svg>
-        </button>
-      </div>
-    `;
-    setupCopyBtn(card.querySelector(".copy-btn"), formatTime(r.time));
-    resultsList.appendChild(card);
-    resultsLabel.textContent = "Your cycle-aligned schedule";
-    timelineContainer.classList.add("hidden");
-    windDownContainer.classList.remove("hidden");
-    renderWindDown(r.bedtime);
-    shareBtn.classList.remove("hidden");
-    showBedtimeCta(r);
-  }
-
-  function showBedtimeCta(r) {
-    const existing = document.getElementById("bedtime-cta");
-    if (existing) existing.remove();
-    const now = new Date();
-    const msUntilBed = r.bedtime.getTime() - now.getTime();
-    if (msUntilBed > 0 && msUntilBed < 3600000) {
-      const mins = Math.round(msUntilBed / 60000);
-      const cta = document.createElement("div");
-      cta.id = "bedtime-cta";
-      cta.className = "mt-3 p-3 rounded-lg text-xs text-center";
-      cta.style.cssText = "background: color-mix(in srgb, var(--color-primary) 10%, transparent); color: var(--color-primary);";
-      cta.textContent = `⏰ Bedtime in ${mins} minutes`;
-      document.getElementById("results").appendChild(cta);
-    }
+    resultsLabel.textContent = "Best times to set your alarm";
   }
 
   function renderResults(results, label) {
     resultsList.innerHTML = "";
-    shareBtn.classList.remove("hidden");
-    windDownContainer.classList.remove("hidden");
 
-    results.forEach((r, idx) => {
-      const isSelected = idx === selectedResultIdx;
+    results.forEach((r) => {
+      const isSelected = r.cycles === selectedCycles;
       const card = document.createElement("button");
+      card.type = "button";
       card.className = `result-card ${isSelected ? "result-card-selected" : "result-card-default"}`;
-      card.dataset.idx = idx;
+      card.dataset.cycles = r.cycles;
+
+      if (!isSelected) {
+        card.onmouseenter = () => { card.style.borderColor = "var(--border-card-hover)"; };
+        card.onmouseleave = () => { card.className = `result-card result-card-default`; };
+      }
 
       const highlight = r.quality.color;
 
@@ -426,12 +213,11 @@ import Footer from "./Footer.astro";
           <div class="flex items-center gap-2 text-xs" style="color: var(--text-muted);">
             <span>${r.cycles} cycles</span>
             <span>·</span>
-            <span>${formatDuration(r.totalMinutes)}</span>
-            <span>·</span>
-            <span style="color: ${highlight}; font-weight: 600;">${r.quality.label}</span>
+            <span>${r.duration}h sleep</span>
           </div>
         </div>
         <div class="flex items-center gap-1.5 shrink-0">
+          <span style="color: ${highlight}; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">${r.quality.label}</span>
           <button class="copy-btn" data-time="${formatTime(r.time)}" title="Copy to clipboard"
             style="padding: 0.375rem; border-radius: 0.375rem; border: none; cursor: pointer; background: transparent; color: var(--text-muted);">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -443,105 +229,90 @@ import Footer from "./Footer.astro";
 
       card.addEventListener("click", (e) => {
         if (e.target.closest(".copy-btn")) return;
-        selectResult(idx);
+        selectCycle(r.cycles);
       });
 
-      setupCopyBtn(card.querySelector(".copy-btn"), formatTime(r.time));
+      const copyBtn = card.querySelector(".copy-btn");
+      copyBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        if (copyTimer) clearTimeout(copyTimer);
+        const checkmark = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+        const original = copyBtn.innerHTML;
+        navigator.clipboard.writeText(time).then(() => {
+          copyBtn.innerHTML = checkmark;
+          copyTimer = setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+        }).catch(() => {});
+      });
+
       resultsList.appendChild(card);
     });
 
-    selectResult(selectedResultIdx);
+    selectCycle(selectedCycles);
   }
 
-  function setupCopyBtn(btn, timeStr) {
-    btn.addEventListener("click", (e) => {
-      e.stopPropagation();
-      if (copyTimer) clearTimeout(copyTimer);
-      const checkmark = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
-      const original = btn.innerHTML;
-      navigator.clipboard.writeText(timeStr).then(() => {
-        btn.innerHTML = checkmark;
-        copyTimer = setTimeout(() => { btn.innerHTML = original; }, 2000);
-      }).catch(() => {});
-    });
-  }
+  function selectCycle(cycles) {
+    selectedCycles = cycles;
 
-  function selectResult(idx) {
-    selectedResultIdx = idx;
     document.querySelectorAll(".result-card").forEach((card) => {
-      const i = parseInt(card.dataset.idx, 10);
-      const isSel = i === idx;
+      const c = parseInt(card.dataset.cycles, 10);
+      const isSel = c === cycles;
       card.className = `result-card ${isSel ? "result-card-selected" : "result-card-default"}`;
     });
 
-    const r = activeResults[idx];
-    if (r) {
-      renderTimeline(r.cycles, r.time);
-      renderWindDown(currentMode === "wake" ? r.time : new Date());
-    }
+    renderTimeline(cycles);
   }
 
-  function renderWindDown(targetTime) {
-    if (!targetTime) { windDownContainer.classList.add("hidden"); return; }
-    windDownContainer.classList.remove("hidden");
-
-    const caffeine = new Date(targetTime.getTime() - 6 * 3600000);
-    const screens = new Date(targetTime.getTime() - 60 * 60000);
-    const windDown = new Date(targetTime.getTime() - 30 * 60000);
-
-    windDownList.innerHTML = [
-      { label: "Stop caffeine", time: caffeine, note: "6h before bed" },
-      { label: "Put away screens", time: screens, note: "1h before bed" },
-      { label: "Start winding down", time: windDown, note: "30 min before bed" },
-      { label: "Bedtime", time: targetTime, note: "Lights out", bold: true },
-    ].map((w) => `
-      <div class="flex items-center gap-2 ${w.bold ? "font-medium" : ""}" style="${w.bold ? `color: var(--text-card);` : ""}">
-        <span class="w-1.5 h-1.5 rounded-full shrink-0" style="background: ${w.bold ? "var(--color-primary)" : "var(--text-muted-soft)"};"></span>
-        <span class="w-14 sm:w-16 shrink-0" style="color: var(--text-card);">${formatTime(w.time)}</span>
-        <span>${w.label}</span>
-        <span class="ml-auto" style="color: var(--text-muted-soft);">${w.note}</span>
-      </div>
-    `).join("");
-  }
-
-  function renderTimeline(cycles, anchorTime) {
+  function renderTimeline(cycles) {
     timelineContainer.classList.remove("hidden");
-    const totalMin = cycles * cycleLen;
-    selectedCycleInfo.textContent = `${cycles} cycles · ${totalMin / 60}h total · ${cycleLen}min cycles`;
+    const totalMin = cycles * CYCLE_LENGTH;
+    selectedCycleInfo.textContent = `${cycles} cycles · ${totalMin / 60}h total`;
 
     const stageDefs = [];
     for (let c = 0; c < cycles; c++) {
-      const start = c * cycleLen;
-      const isLaterCycle = c >= Math.max(2, Math.floor(cycles / 2));
-      if (!isLaterCycle || cycles <= 4) {
+      const start = c * CYCLE_LENGTH;
+      const isLaterCycle = c >= 2;
+      if (!isLaterCycle) {
         stageDefs.push({ cycle: c, stage: "N3", label: "Deep", short: "D", start, dur: 30, color: "var(--stage-n3)" });
         stageDefs.push({ cycle: c, stage: "N2", label: "Light", short: "L", start: start + 30, dur: 20, color: "var(--stage-n2)" });
         stageDefs.push({ cycle: c, stage: "N1", label: "Dozing", short: "Z", start: start + 50, dur: 5, color: "var(--stage-n1)" });
-        stageDefs.push({ cycle: c, stage: "REM", label: "Dream", short: "R", start: start + 55, dur: cycleLen - 55, color: "var(--stage-rem)" });
+        stageDefs.push({ cycle: c, stage: "REM", label: "Dream", short: "R", start: start + 55, dur: 35, color: "var(--stage-rem)" });
       } else {
         stageDefs.push({ cycle: c, stage: "N2", label: "Light", short: "L", start, dur: 20, color: "var(--stage-n2)" });
         stageDefs.push({ cycle: c, stage: "N1", label: "Dozing", short: "Z", start: start + 20, dur: 5, color: "var(--stage-n1)" });
         stageDefs.push({ cycle: c, stage: "REM", label: "Dream", short: "R", start: start + 25, dur: 35, color: "var(--stage-rem)" });
         const n3dur = Math.max(5, 30 - (c - 2) * 8);
-        stageDefs.push({ cycle: c, stage: "N3", label: "Deep", short: "D", start: start + 60, dur: Math.min(n3dur, cycleLen - 60), color: "var(--stage-n3)" });
+        stageDefs.push({ cycle: c, stage: "N3", label: "Deep", short: "D", start: start + 60, dur: n3dur, color: "var(--stage-n3)" });
       }
     }
 
     timelineBars.innerHTML = "";
+
     stageDefs.forEach((s) => {
       const leftPct = (s.start / totalMin) * 100;
       const wPct = (s.dur / totalMin) * 100;
+
       const seg = document.createElement("div");
       seg.className = "absolute top-0 rounded-sm cursor-pointer";
-      seg.style.cssText = `left: ${leftPct}%; width: ${Math.max(wPct, 1.5)}%; height: 28px; background: ${s.color}; opacity: ${s.stage === "REM" ? "0.85" : s.stage === "N3" ? "0.75" : "0.65"}; transition: opacity 0.15s; font-size: 8px; padding-left: 3px; line-height: 28px; color: ${s.stage === "REM" ? "#1a1a1a" : "#fff"}; font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;`;
+      seg.style.cssText = `
+        left: ${leftPct}%; width: ${Math.max(wPct, 1.5)}%; height: 28px;
+        background: ${s.color}; opacity: ${s.stage === "REM" ? "0.85" : s.stage === "N3" ? "0.75" : "0.65"};
+        transition: opacity 0.15s;
+        font-size: 8px; padding-left: 3px; line-height: 28px;
+        color: ${s.stage === "REM" ? "#1a1a1a" : "#fff"};
+        font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+      `;
       seg.textContent = wPct > 8 ? s.label : s.short;
+
       seg.onmouseenter = () => { seg.style.opacity = "1"; };
       seg.onmouseleave = () => { seg.style.opacity = s.stage === "REM" ? "0.85" : s.stage === "N3" ? "0.75" : "0.65"; };
+
       seg.setAttribute("role", "img");
       seg.setAttribute("aria-label", `Cycle ${s.cycle + 1}: ${s.label} Sleep (${s.dur} minutes)`);
+
       seg.title = `Cycle ${s.cycle + 1}: ${s.label} Sleep (${s.dur}min)`;
       timelineBars.appendChild(seg);
     });
+
     timelineBars.style.cssText = "position: relative; height: 28px;";
 
     const stageColors = [
@@ -550,10 +321,17 @@ import Footer from "./Footer.astro";
       { label: "Dozing (N1)", color: "var(--stage-n1)" },
       { label: "REM (Dreaming)", color: "var(--stage-rem)" },
     ];
-    cycleLegend.innerHTML = stageColors.map((sc) => `<span class="inline-flex items-center gap-1.5"><span class="w-2 h-2 rounded-sm shrink-0" style="background: ${sc.color}"></span>${sc.label}</span>`).join("");
+
+    cycleLegend.innerHTML = stageColors.map((sc) => `
+      <span class="inline-flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-sm shrink-0" style="background: ${sc.color}"></span>
+        ${sc.label}
+      </span>
+    `).join("");
 
     const existingMarkers = timelineContainer.querySelector(".cycle-markers");
     if (existingMarkers) existingMarkers.remove();
+
     const markers = document.createElement("div");
     markers.className = "cycle-markers flex";
     markers.style.cssText = "justify-content: space-between; margin-top: 0.25rem;";
@@ -566,41 +344,22 @@ import Footer from "./Footer.astro";
     timelineContainer.appendChild(markers);
   }
 
-  function shareResults() {
-    if (!activeResults.length) return;
-    const r = activeResults[selectedResultIdx] || activeResults[0];
-    const lines = [
-      "ZzzCalc Sleep Schedule",
-      "---",
-    ];
-    activeResults.forEach((res, i) => {
-      const sel = i === selectedResultIdx ? " ✓" : "";
-      lines.push(`${formatTime(res.time)} — ${res.cycles} cycles (${res.duration}h) ${res.quality.label}${sel}`);
-    });
-    if (currentMode === "wake") {
-      const wd = document.getElementById("wind-down-list");
-      if (wd) lines.push("", "Wind-down:", wd.innerText.replace(/\s+/g, " ").trim());
-    }
-    lines.push("", "Made with ZzzCalc — zzzcalc.vercel.app");
-
-    if (navigator.share) {
-      navigator.share({ title: "My ZzzCalc Sleep Schedule", text: lines.join("\n") }).catch(() => {});
-    } else {
-      navigator.clipboard.writeText(lines.join("\n")).then(() => {
-        shareBtn.textContent = "Copied!";
-        setTimeout(() => { shareBtn.textContent = "Share"; }, 2000);
-      }).catch(() => {});
-    }
-  }
-
   init();
 </script>
 
 <style is:global>
-  .tab-btn { cursor: pointer; border: none; outline: none; font-family: var(--font-sans); }
-  .tab-btn:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+  .tab-btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: var(--font-sans);
+  }
+  .tab-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
   .result-card { font-family: var(--font-sans); }
   .result-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
   .copy-btn svg { pointer-events: none; display: block; }
-  #age-select:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 1px; }
 </style>

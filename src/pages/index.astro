@@ -5,7 +5,6 @@ import Hero from "../components/Hero.astro";
 import Features from "../components/Features.astro";
 import ScienceCard from "../components/ScienceCard.astro";
 import Calculator from "../components/Calculator.astro";
-import ChronotypeQuiz from "../components/ChronotypeQuiz.astro";
 import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
 import { faqStructuredData } from "../lib/faq-data.js";
@@ -28,33 +27,6 @@ import { faqStructuredData } from "../lib/faq-data.js";
     </div>
   </section>
 
-  <section class="py-6 sm:py-12">
-    <div class="container-main">
-      <div class="max-w-2xl mx-auto">
-        <ChronotypeQuiz />
-      </div>
-    </div>
-  </section>
-
-  <section class="py-6 sm:py-12">
-    <div class="container-main">
-      <div class="max-w-2xl mx-auto">
-        <div class="grid grid-cols-2 gap-3">
-          <a href="/planner" class="card-primary p-4 sm:p-6 text-center hover:translate-y-[-2px] transition-transform" style="text-decoration: none;">
-            <span class="text-2xl block mb-2">📅</span>
-            <h3 class="text-sm font-semibold" style="color: var(--text-card);">Weekly Planner</h3>
-            <p class="text-xs mt-1" style="color: var(--text-muted);">Plan 7 days of cycle-aligned bedtimes</p>
-          </a>
-          <a href="/debt" class="card-primary p-4 sm:p-6 text-center hover:translate-y-[-2px] transition-transform" style="text-decoration: none;">
-            <span class="text-2xl block mb-2">📊</span>
-            <h3 class="text-sm font-semibold" style="color: var(--text-card);">Sleep Debt Tracker</h3>
-            <p class="text-xs mt-1" style="color: var(--text-muted);">Track cumulative sleep debt over time</p>
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <section class="py-12 sm:py-20">
     <div class="container-main">
       <div class="max-w-3xl mx-auto" style="color: var(--text-muted); line-height: 1.75;">
@@ -67,11 +39,11 @@ import { faqStructuredData } from "../lib/faq-data.js";
         </p>
 
         <p class="text-sm sm:text-base mt-4">
-          ZzzCalc is a <strong style="color: var(--text-card);">90 minute sleep cycle calculator</strong> that works backward from your target wake time — or forward from your bedtime — in 90-minute blocks. It accounts for the average 14 minutes it takes to fall asleep, then shows you every cycle-aligned option from 4 to 6 cycles. Each result includes a quality rating so you can decide what trade-off works for your schedule. You can also adjust the cycle length (70–110 min) to match your personal sleep biology.
+          ZzzCalc is a <strong style="color: var(--text-card);">90 minute sleep cycle calculator</strong> that works backward from your target wake time — or forward from your bedtime — in 90-minute blocks. It accounts for the average 14 minutes it takes to fall asleep, then shows you every cycle-aligned option from 4 to 6 cycles. Each result includes a quality rating so you can decide what trade-off works for your schedule.
         </p>
 
         <p class="text-sm sm:text-base mt-4">
-          Sleep needs change across your lifetime, which is why a proper <strong style="color: var(--text-card);">sleep cycle calculator age</strong> adjustment matters. Teens need 8-10 hours (6-7 cycles), adults need 7-9 hours (5-6 cycles), and seniors often do best with 7-8 hours (5 cycles). ZzzCalc's age selector picks the right cycle range for you — from infants to seniors.
+          Sleep needs change across your lifetime, which is why a proper <strong style="color: var(--text-card);">sleep cycle calculator age</strong> adjustment matters. Teens need 8-10 hours (6-7 cycles), adults need 7-9 hours (5-6 cycles), and seniors often do best with 7-8 hours (5 cycles). ZzzCalc lets you experiment with different cycle counts to find what works for you — whatever your age or schedule.
         </p>
 
         <p class="text-sm sm:text-base mt-4">
