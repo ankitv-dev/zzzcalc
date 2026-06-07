@@ -5,12 +5,17 @@ const bottomLinks = [
   { href: "/terms", label: "Terms" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
-  { href: "#", label: "Cookies", id: "cookie-settings" },
 ];
 ---
 
 <footer style="border-top: 1px solid var(--footer-border); margin-top: 6rem;">
   <div class="container-main py-10 sm:py-16">
+    <div class="mb-8 pb-6" style="border-bottom: 1px solid var(--footer-border);">
+      <h3 class="text-xs font-semibold uppercase tracking-widest mb-2" style="color: var(--text-muted);">Feature requests</h3>
+      <p class="text-sm leading-relaxed" style="color: var(--text-muted);">
+        ZzzCalc is intentionally minimal, but we are open to well-considered additions. If you have an idea that fits the tool's focus — local-first, private, sleep-cycle-science-based — we would love to hear about it.
+      </p>
+    </div>
     <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 sm:gap-8">
       <div class="col-span-2 sm:col-span-1">
         <span class="font-serif text-lg tracking-tight" style="color: var(--text-page);">ZzzCalc</span>
@@ -54,8 +59,9 @@ const bottomLinks = [
       <p class="text-xs" style="color: var(--text-muted);">&copy; {copyright} ZzzCalc. Wake up refreshed.</p>
       <div class="flex items-center gap-3 text-xs" style="color: var(--text-muted);">
         {bottomLinks.map((l) => (
-          <a href={l.href} class="footer-link" id={l.id}>{l.label}</a>
+          <a href={l.href} class="footer-link">{l.label}</a>
         ))}
+        <button id="cookie-settings" class="footer-link" style="background: none; border: none; cursor: pointer; padding: 0; font: inherit; color: inherit;">Cookies</button>
       </div>
     </div>
   </div>
