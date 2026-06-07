@@ -1,0 +1,197 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Weekly Sleep Planner — ZzzCalc"
+  description="Plan your sleep schedule for the whole week. Use ZzzCalc's weekly sleep planner to set cycle-aligned bedtimes for every day."
+  canonical="https://zzzcalc.vercel.app/planner"
+>
+  <Nav />
+
+  <section class="pt-28 pb-16 sm:pt-40 sm:pb-24">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-1" style="color: var(--text-page);">Weekly Planner</h1>
+        <p class="text-sm mb-6" style="color: var(--text-muted);">Plan cycle-aligned bedtimes for each day of the week.</p>
+
+        <div class="card-primary p-4 sm:p-6">
+          <div class="flex flex-col sm:flex-row gap-3 mb-5">
+            <div class="flex-1">
+              <label class="sleep-label" for="planner-wake">I want to wake up at</label>
+              <input id="planner-wake" type="time" class="sleep-input" value="07:00" />
+            </div>
+            <div class="flex-1">
+              <label class="sleep-label" for="planner-latency">Latency (min)</label>
+              <input id="planner-latency" type="number" min="5" max="45" value="14" class="sleep-input" />
+            </div>
+            <div class="flex-1">
+              <label class="sleep-label" for="planner-cycles">Cycles</label>
+              <select id="planner-cycles" class="sleep-input">
+                <option value="4">4 cycles (6h)</option>
+                <option value="5" selected>5 cycles (7.5h)</option>
+                <option value="6">6 cycles (9h)</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="planner-grid" class="space-y-2">
+            {["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"].map((day, i) => {
+              const isWeekend = i >= 5;
+              return (
+                <div class="planner-day flex items-center gap-3 p-3 rounded-lg" style="background: var(--bg-soft); border: 1px solid var(--border-card);">
+                  <span class="w-20 sm:w-24 text-sm font-medium shrink-0" style="color: var(--text-card);">{day}</span>
+                  {isWeekend && (
+                    <span class="text-[10px] px-1.5 py-0.5 rounded uppercase tracking-wider shrink-0" style="background: color-mix(in srgb, var(--color-primary) 12%, transparent); color: var(--color-primary);">flex</span>
+                  )}
+                  <span class="planner-sleep-time text-sm ml-auto" style="color: var(--text-muted);">--:--</span>
+                  <label class="planner-toggle flex items-center gap-1.5 cursor-pointer shrink-0">
+                    <input type="checkbox" class="planner-adjust-chk" checked={isWeekend} />
+                    <span class="text-[10px]" style="color: var(--text-muted-soft);">Adjust</span>
+                  </label>
+                  <div class="planner-adjust-row hidden items-center gap-1.5 ml-2">
+                    <input type="time" class="planner-adjust-time text-xs rounded-md px-2 py-1" style="background: var(--bg-page); border: 1px solid var(--border-card); color: var(--text-card); font-family: var(--font-sans);" value="10:00" />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div class="mt-6 flex flex-wrap gap-3">
+          <button id="planner-copy" class="btn-secondary text-sm">Copy schedule</button>
+          <button id="planner-reset" class="px-3 py-1.5 text-xs rounded-md" style="background: transparent; color: var(--text-muted-soft); border: 1px solid var(--border-card); cursor: pointer; font-family: var(--font-sans);">Reset</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<script>
+  import { DEFAULT_LATENCY } from "../lib/cycles.js";
+  import { formatTime, formatHourMin, formatAmPm } from "../lib/format.js";
+
+  const wakeInput = document.getElementById("planner-wake");
+  const latencyInput = document.getElementById("planner-latency");
+  const cyclesInput = document.getElementById("planner-cycles");
+  const dayRows = document.querySelectorAll(".planner-day");
+
+  let cycleLen = 90;
+
+  function calculate() {
+    const timeVal = wakeInput.value;
+    if (!timeVal) return;
+    const [h, m] = timeVal.split(":").map(Number);
+    const latency = parseInt(latencyInput.value, 10) || 14;
+    const cycles = parseInt(cyclesInput.value, 10) || 5;
+    const totalSleep = cycles * cycleLen;
+    const baseWake = new Date();
+    baseWake.setHours(h, m, 0, 0);
+
+    dayRows.forEach((row) => {
+      const chk = row.querySelector(".planner-adjust-chk");
+      const adjustRow = row.querySelector(".planner-adjust-row");
+      const adjustTime = row.querySelector(".planner-adjust-time");
+      const timeSpan = row.querySelector(".planner-sleep-time");
+
+      if (chk.checked && adjustTime.value) {
+        const [ah, am] = adjustTime.value.split(":").map(Number);
+        const adjWake = new Date(baseWake);
+        adjWake.setHours(ah, am, 0, 0);
+        const bed = new Date(adjWake.getTime() - (totalSleep + latency) * 60000);
+        timeSpan.textContent = `${formatHourMin(bed)} ${formatAmPm(bed)}`;
+      } else {
+        const bed = new Date(baseWake.getTime() - (totalSleep + latency) * 60000);
+        timeSpan.textContent = `${formatHourMin(bed)} ${formatAmPm(bed)}`;
+      }
+    });
+  }
+
+  function loadSettings() {
+    try {
+      const s = JSON.parse(localStorage.getItem("zzzcalc-planner") || "{}");
+      if (s.wake) wakeInput.value = s.wake;
+      if (s.latency) latencyInput.value = s.latency;
+      if (s.cycles) cyclesInput.value = s.cycles;
+      if (s.adjustments) {
+        dayRows.forEach((row, i) => {
+          const adj = s.adjustments[i];
+          if (adj) {
+            const chk = row.querySelector(".planner-adjust-chk");
+            const adjustRow = row.querySelector(".planner-adjust-row");
+            const adjustTime = row.querySelector(".planner-adjust-time");
+            chk.checked = adj.on;
+            adjustRow.classList.toggle("hidden", !adj.on);
+            if (adj.time) adjustTime.value = adj.time;
+          }
+        });
+      }
+    } catch (e) {}
+  }
+
+  function saveSettings() {
+    try {
+      const adjustments = [];
+      dayRows.forEach((row) => {
+        const chk = row.querySelector(".planner-adjust-chk");
+        const adjustTime = row.querySelector(".planner-adjust-time");
+        adjustments.push({ on: chk.checked, time: adjustTime.value });
+      });
+      localStorage.setItem("zzzcalc-planner", JSON.stringify({
+        wake: wakeInput.value,
+        latency: latencyInput.value,
+        cycles: cyclesInput.value,
+        adjustments,
+      }));
+    } catch (e) {}
+  }
+
+  dayRows.forEach((row) => {
+    const chk = row.querySelector(".planner-adjust-chk");
+    const adjustRow = row.querySelector(".planner-adjust-row");
+    chk.addEventListener("change", () => {
+      adjustRow.classList.toggle("hidden", !chk.checked);
+      calculate();
+      saveSettings();
+    });
+    const adjustTime = row.querySelector(".planner-adjust-time");
+    adjustTime.addEventListener("change", () => { calculate(); saveSettings(); });
+  });
+
+  [wakeInput, latencyInput, cyclesInput].forEach((el) => {
+    el.addEventListener("change", () => { calculate(); saveSettings(); });
+    el.addEventListener("input", calculate);
+  });
+
+  document.getElementById("planner-copy").addEventListener("click", () => {
+    const lines = ["ZzzCalc Weekly Sleep Plan"];
+    dayRows.forEach((row) => {
+      const day = row.querySelector(".w-20")?.textContent?.trim();
+      const time = row.querySelector(".planner-sleep-time")?.textContent?.trim();
+      if (day && time) lines.push(`${day}: Bed by ${time}`);
+    });
+    lines.push("", "Made with ZzzCalc — zzzcalc.vercel.app");
+    navigator.clipboard.writeText(lines.join("\n")).then(() => {
+      const btn = document.getElementById("planner-copy");
+      btn.textContent = "Copied!";
+      setTimeout(() => { btn.textContent = "Copy schedule"; }, 2000);
+    }).catch(() => {});
+  });
+
+  document.getElementById("planner-reset").addEventListener("click", () => {
+    localStorage.removeItem("zzzcalc-planner");
+    location.reload();
+  });
+
+  loadSettings();
+  calculate();
+</script>
+
+<style is:global>
+  .planner-day:focus-within { outline: 2px solid var(--color-primary); outline-offset: -2px; border-radius: 0.5rem; }
+  .planner-adjust-chk { accent-color: var(--color-primary); }
+</style>
