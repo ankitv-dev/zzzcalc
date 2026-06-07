@@ -33,11 +33,13 @@ A local-first sleep cycle calculator based on 90-minute REM cycles. Built with A
 
 ```
 src/
-├── components/     # Calculator, PowerNapTimer, Nav, Hero, FAQ, Features, etc.
-├── layouts/        # Layout.astro (HTML shell, OG tags, fonts, GA)
-├── pages/          # Routes: /, /nap, /about, /contact, /privacy, /terms, /404, /500
-└── styles/         # global.css (CSS variables, Tailwind utilities, dark/light themes)
-public/             # Favicons, OG image, manifest, robots.txt, GSC verification
+├── components/     # Astro components (Calculator, PowerNapTimer, Nav, etc.)
+├── layouts/        # Layout.astro (HTML shell, OG tags, fonts)
+├── pages/          # Routes: /, /nap, /about, /contact, /privacy, /terms
+├── styles/         # global.css (theme variables, utilities)
+└── utils/          # sleepCycle.js (cycle math, formatting)
+public/             # Static assets (favicons, manifest, OG image)
+scripts/            # Build utilities (OG generation, performance audit)
 ```
 
 ## License
