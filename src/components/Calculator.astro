@@ -116,7 +116,7 @@ import Footer from "./Footer.astro";
 </div>
 
 <script>
-  import { CYCLE_LENGTH, DEFAULT_LATENCY, getQuality, AGE_GROUPS, cycleRangeForAge, chronotypeFromScore } from "../lib/cycles.js";
+  import { CYCLE_LENGTH, DEFAULT_LATENCY, getQuality, AGE_GROUPS, cycleRangeForAge, cycleLenForAge, chronotypeFromScore } from "../lib/cycles.js";
   import { formatTime, formatHourMin, formatAmPm } from "../lib/format.js";
 
   const timeInput = document.getElementById("time-input");
@@ -155,15 +155,21 @@ import Footer from "./Footer.astro";
   function loadSettings() {
     try {
       const saved = localStorage.getItem("zzzcalc-settings");
+      let hasSavedCycleLen = false;
       if (saved) {
         const s = JSON.parse(saved);
         if (s.time) timeInput.value = s.time;
         if (s.latency) { latencySlider.value = s.latency; latencyValue.textContent = `${s.latency} min`; }
         if (s.mode) setMode(s.mode);
-        if (s.cycleLen) { cycleLengthSlider.value = s.cycleLen; cycleLen = s.cycleLen; cycleLengthValue.textContent = `${s.cycleLen} min`; }
         if (s.ageId) { ageSelect.value = s.ageId; currentAgeId = s.ageId; }
+        if (s.cycleLen) { cycleLengthSlider.value = s.cycleLen; cycleLen = s.cycleLen; hasSavedCycleLen = true; }
         if (s.hours) { hoursSlider.value = s.hours; hoursValue.textContent = `${s.hours}h`; }
       }
+      if (!hasSavedCycleLen) {
+        cycleLen = cycleLenForAge(ageSelect.value);
+        cycleLengthSlider.value = cycleLen;
+      }
+      cycleLengthValue.textContent = `${cycleLen} min`;
     } catch (e) {}
   }
 
@@ -222,7 +228,15 @@ import Footer from "./Footer.astro";
       calculate();
     });
     cycleLengthSlider.addEventListener("change", saveSettings);
-    ageSelect.addEventListener("change", () => { currentAgeId = ageSelect.value; calculate(); saveSettings(); });
+    ageSelect.addEventListener("change", () => {
+      currentAgeId = ageSelect.value;
+      const defaultCycle = cycleLenForAge(currentAgeId);
+      cycleLengthSlider.value = defaultCycle;
+      cycleLen = defaultCycle;
+      cycleLengthValue.textContent = `${defaultCycle} min`;
+      calculate();
+      saveSettings();
+    });
     chronotypeBadge.addEventListener("click", () => {
       localStorage.removeItem("zzzcalc-chronotype");
       chronotypeBadge.classList.add("hidden");

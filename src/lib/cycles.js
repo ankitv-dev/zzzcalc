@@ -24,20 +24,25 @@ export const QUICK_REF = [
 ];
 
 export const AGE_GROUPS = [
-  { id: "infant", label: "0–3 months", range: [14, 17], cycles: null },
-  { id: "baby", label: "4–12 months", range: [12, 16], cycles: null },
-  { id: "toddler", label: "1–2 years", range: [11, 14], cycles: null },
-  { id: "child", label: "3–5 years", range: [10, 13], cycles: null },
-  { id: "preteen", label: "6–12 years", range: [9, 12], cycles: null },
-  { id: "teen", label: "13–18 years", range: [8, 10], cycles: null },
-  { id: "adult", label: "18–60 years", range: [7, 9], cycles: [5, 6] },
-  { id: "senior1", label: "61–64 years", range: [7, 9], cycles: [5, 6] },
-  { id: "senior2", label: "65+ years", range: [7, 8], cycles: [4, 6] },
+  { id: "infant", label: "0–3 months", range: [14, 17], cycles: [8, 11], cycleLen: 50 },
+  { id: "baby", label: "4–12 months", range: [12, 16], cycles: [7, 10], cycleLen: 60 },
+  { id: "toddler", label: "1–2 years", range: [11, 14], cycles: [6, 9], cycleLen: 70 },
+  { id: "child", label: "3–5 years", range: [10, 13], cycles: [6, 8], cycleLen: 80 },
+  { id: "preteen", label: "6–12 years", range: [9, 12], cycles: [5, 7], cycleLen: 85 },
+  { id: "teen", label: "13–18 years", range: [8, 10], cycles: [5, 6], cycleLen: 90 },
+  { id: "adult", label: "18–60 years", range: [7, 9], cycles: [4, 6], cycleLen: 90 },
+  { id: "senior1", label: "61–64 years", range: [7, 9], cycles: [4, 6], cycleLen: 90 },
+  { id: "senior2", label: "65+ years", range: [7, 8], cycles: [4, 5], cycleLen: 90 },
 ];
 
 export function cycleRangeForAge(ageId) {
   const g = AGE_GROUPS.find((a) => a.id === ageId);
-  return g ? g.cycles : [5, 6];
+  return g ? g.cycles : [4, 6];
+}
+
+export function cycleLenForAge(ageId) {
+  const g = AGE_GROUPS.find((a) => a.id === ageId);
+  return g ? g.cycleLen : 90;
 }
 
 export const CHRONOTYPE_QUESTIONS = [
