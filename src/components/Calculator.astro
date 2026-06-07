@@ -197,11 +197,6 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
       card.className = `result-card ${isSelected ? "result-card-selected" : "result-card-default"}`;
       card.dataset.cycles = r.cycles;
 
-      if (!isSelected) {
-        card.onmouseenter = () => { card.style.borderColor = "var(--border-card-hover)"; };
-        card.onmouseleave = () => { card.className = `result-card result-card-default`; };
-      }
-
       const highlight = r.quality.color;
 
       card.innerHTML = `
@@ -359,7 +354,22 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
     outline-offset: -2px;
   }
 
-  .result-card { font-family: var(--font-sans); }
+  .result-card {
+    font-family: var(--font-sans);
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem 1rem;
+    border-radius: var(--radius-lg);
+    border-width: 1px;
+    border-style: solid;
+    width: 100%;
+    text-align: left;
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+  }
   .result-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+  .result-card:hover { border-color: var(--border-card-hover); }
   .copy-btn svg { pointer-events: none; display: block; }
 </style>
