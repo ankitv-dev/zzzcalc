@@ -20,6 +20,19 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
         <div class="flex-1 min-w-0">
           <label class="sleep-label" for="time-input">Time</label>
           <input id="time-input" type="time" name="wake-time" autocomplete="off" class="sleep-input" value="07:00" />
+          <div class="flex gap-1.5 mt-1.5">
+            <button type="button" class="quick-time-btn" data-offset="0">Now</button>
+            <button type="button" class="quick-time-btn" data-offset="30">+30 min</button>
+            <button type="button" class="quick-time-btn" data-offset="60">+1 hr</button>
+          </div>
+        </div>
+        <div class="w-full sm:w-28">
+          <label class="sleep-label" for="age-input">Age</label>
+          <select id="age-input" class="sleep-input">
+            <option value="13-17">13–17</option>
+            <option value="18-60" selected>18–60</option>
+            <option value="61-120">61+</option>
+          </select>
         </div>
         <div class="flex-1 min-w-0">
           <label class="sleep-label" for="latency-slider">
@@ -66,7 +79,7 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
 </div>
 
 <script>
-  import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } from "../lib/cycles.js";
+  import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality, AGE_GROUPS } from "../lib/cycles.js";
   import { formatTime, formatHourMin, formatAmPm } from "../lib/format.js";
 
   const timeInput = document.getElementById("time-input");
@@ -80,6 +93,8 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
   const timelineBars = document.getElementById("timeline-bars");
   const cycleLegend = document.getElementById("cycle-legend");
   const selectedCycleInfo = document.getElementById("selected-cycle-info");
+  const ageInput = document.getElementById("age-input");
+  const quickTimeBtns = document.querySelectorAll(".quick-time-btn");
 
   let currentMode = "wake";
   let selectedCycles = 5;
@@ -96,6 +111,7 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
           latencyValue.textContent = `${settings.latency} min`;
         }
         if (settings.mode) setMode(settings.mode);
+        if (settings.age) ageInput.value = settings.age;
       }
     } catch (e) {}
   }
@@ -106,6 +122,7 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
         time: timeInput.value,
         latency: latencySlider.value,
         mode: currentMode,
+        age: ageInput.value,
       };
       localStorage.setItem("zzzcalc-settings", JSON.stringify(settings));
     } catch (e) {}
@@ -128,6 +145,19 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
     latencySlider.addEventListener("change", saveSettings);
     modeWake.addEventListener("click", () => { setMode("wake"); saveSettings(); });
     modeBed.addEventListener("click", () => { setMode("bed"); saveSettings(); });
+    ageInput.addEventListener("change", () => { calculate(); saveSettings(); });
+    quickTimeBtns.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        const offsetMin = parseInt(btn.dataset.offset, 10);
+        const now = new Date();
+        now.setMinutes(now.getMinutes() + offsetMin);
+        const hh = String(now.getHours()).padStart(2, "0");
+        const mm = String(now.getMinutes()).padStart(2, "0");
+        timeInput.value = `${hh}:${mm}`;
+        calculate();
+        saveSettings();
+      });
+    });
   }
 
   function setMode(mode) {
@@ -158,16 +188,19 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
     const baseDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0);
     const latency = parseInt(latencySlider.value, 10) || DEFAULT_LATENCY;
 
+    const ageVal = ageInput.value;
+    const ageGroup = AGE_GROUPS.find((g) => g.value === ageVal) || AGE_GROUPS[1];
+
     if (currentMode === "wake") {
-      calculateBedtimes(baseDate, latency);
+      calculateBedtimes(baseDate, latency, ageGroup.cyclesMin, ageGroup.cyclesMax);
     } else {
-      calculateWakeTimes(baseDate, latency);
+      calculateWakeTimes(baseDate, latency, ageGroup.cyclesMin, ageGroup.cyclesMax);
     }
   }
 
-  function calculateBedtimes(wakeTime, latency) {
+  function calculateBedtimes(wakeTime, latency, cyclesMin, cyclesMax) {
     const results = [];
-    for (let cycles = MIN_CYCLES; cycles <= MAX_CYCLES; cycles++) {
+    for (let cycles = cyclesMin; cycles <= cyclesMax; cycles++) {
       const totalMinutes = cycles * CYCLE_LENGTH;
       const bedtime = new Date(wakeTime.getTime() - (totalMinutes + latency) * 60000);
       results.push({ cycles, time: bedtime, duration: totalMinutes / 60, quality: getQuality(cycles) });
@@ -176,9 +209,9 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
     resultsLabel.textContent = "Optimal bedtimes to wake up refreshed";
   }
 
-  function calculateWakeTimes(bedTime, latency) {
+  function calculateWakeTimes(bedTime, latency, cyclesMin, cyclesMax) {
     const results = [];
-    for (let cycles = MIN_CYCLES; cycles <= MAX_CYCLES; cycles++) {
+    for (let cycles = cyclesMin; cycles <= cyclesMax; cycles++) {
       const totalMinutes = cycles * CYCLE_LENGTH;
       const wakeTime = new Date(bedTime.getTime() + (latency + totalMinutes) * 60000);
       results.push({ cycles, time: wakeTime, duration: totalMinutes / 60, quality: getQuality(cycles) });
@@ -352,6 +385,29 @@ import { CYCLE_LENGTH, DEFAULT_LATENCY, MIN_CYCLES, MAX_CYCLES, getQuality } fro
   .tab-btn:focus-visible {
     outline: 2px solid var(--color-primary);
     outline-offset: -2px;
+  }
+
+  .quick-time-btn {
+    font-family: var(--font-sans);
+    font-size: 0.7rem;
+    font-weight: 500;
+    padding: 0.25rem 0.625rem;
+    border-radius: var(--radius-pill);
+    border: 1px solid var(--border-card);
+    background: transparent;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: background-color 0.15s ease, border-color 0.15s ease;
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+  }
+  .quick-time-btn:hover {
+    border-color: var(--border-card-hover);
+    color: var(--text-card);
+  }
+  .quick-time-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: 2px;
   }
 
   .result-card {
