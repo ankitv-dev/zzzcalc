@@ -21,7 +21,7 @@ const napTypes = [
             data-duration={nap.duration}
             data-id={nap.id}
           >
-            <span class="text-lg sm:text-xl">{nap.icon}</span>
+            <span class="text-lg sm:text-xl" aria-hidden="true">{nap.icon}</span>
             <span class="text-sm font-medium" style="color: var(--text-card);">{nap.label}</span>
             <span class="text-xs" style="color: var(--text-card-muted);">{nap.description}</span>
             <span class="text-xs font-semibold mt-auto pt-1" style="color: var(--color-primary);">{nap.duration} min</span>
@@ -113,6 +113,7 @@ const napTypes = [
   }
 
   function updateTimer() {
+    if (!endTime) return;
     const now = Date.now();
     const diff = endTime.getTime() - now;
     if (diff <= 0) {

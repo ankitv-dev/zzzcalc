@@ -14,9 +14,9 @@
       <div>
         <h3 class="text-xs font-semibold uppercase tracking-widest mb-3" style="color: var(--text-muted);">Calculator</h3>
         <ul class="space-y-1.5">
-          <li><a href="/" class="text-sm transition-colors" style="color: var(--text-muted);">Bedtime Calculator</a></li>
-          <li><a href="/" class="text-sm transition-colors" style="color: var(--text-muted);">Wake-Up Calculator</a></li>
-          <li><a href="/nap" class="text-sm transition-colors" style="color: var(--text-muted);">Power Nap Timer</a></li>
+          <li><a href="/" class="footer-link text-sm" style="color: var(--text-muted);">Bedtime Calculator</a></li>
+          <li><a href="/" class="footer-link text-sm" style="color: var(--text-muted);">Wake-Up Calculator</a></li>
+          <li><a href="/nap" class="footer-link text-sm" style="color: var(--text-muted);">Power Nap Timer</a></li>
         </ul>
       </div>
       <div>
@@ -30,15 +30,15 @@
       <div>
         <h3 class="text-xs font-semibold uppercase tracking-widest mb-3" style="color: var(--text-muted);">Company</h3>
         <ul class="space-y-1.5">
-          <li><a href="/about" class="text-sm transition-colors" style="color: var(--text-muted);">About Us</a></li>
-          <li><a href="/contact" class="text-sm transition-colors" style="color: var(--text-muted);">Contact Us</a></li>
+          <li><a href="/about" class="footer-link text-sm" style="color: var(--text-muted);">About Us</a></li>
+          <li><a href="/contact" class="footer-link text-sm" style="color: var(--text-muted);">Contact Us</a></li>
         </ul>
       </div>
       <div>
         <h3 class="text-xs font-semibold uppercase tracking-widest mb-3" style="color: var(--text-muted);">Legal</h3>
         <ul class="space-y-1.5">
-          <li><a href="/privacy" class="text-sm transition-colors" style="color: var(--text-muted);">Privacy Policy</a></li>
-          <li><a href="/terms" class="text-sm transition-colors" style="color: var(--text-muted);">Terms &amp; Conditions</a></li>
+          <li><a href="/privacy" class="footer-link text-sm" style="color: var(--text-muted);">Privacy Policy</a></li>
+          <li><a href="/terms" class="footer-link text-sm" style="color: var(--text-muted);">Terms &amp; Conditions</a></li>
           <li class="text-sm" style="color: var(--text-muted);">Not medical advice</li>
         </ul>
       </div>
@@ -46,11 +46,17 @@
     <div class="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top: 1px solid var(--footer-border);">
       <p class="text-xs" style="color: var(--text-muted);">&copy; {new Date().getFullYear()} ZzzCalc. Wake up refreshed.</p>
       <div class="flex items-center gap-3 text-xs" style="color: var(--text-muted);">
-        <a href="/privacy" class="hover:opacity-80 transition-opacity">Privacy</a>
-        <a href="/terms" class="hover:opacity-80 transition-opacity">Terms</a>
-        <a href="/about" class="hover:opacity-80 transition-opacity">About</a>
-        <a href="/contact" class="hover:opacity-80 transition-opacity">Contact</a>
+        <a href="/privacy" class="footer-link">Privacy</a>
+        <a href="/terms" class="footer-link">Terms</a>
+        <a href="/about" class="footer-link">About</a>
+        <a href="/contact" class="footer-link">Contact</a>
       </div>
     </div>
   </div>
 </footer>
+
+<style is:global>
+  .footer-link { transition: color 0.15s ease; }
+  .footer-link:hover, .footer-link:focus-visible { color: var(--text-card) !important; }
+  .footer-link:focus-visible { outline: 2px solid var(--color-primary); outline-offset: 2px; border-radius: 2px; }
+</style>

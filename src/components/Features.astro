@@ -49,7 +49,7 @@ const features = [
       {
         features.map((f) => (
           <div class="card-primary hover:opacity-90 transition-opacity">
-            <span class="text-xl sm:text-2xl mb-2 block">{f.icon}</span>
+            <span class="text-xl sm:text-2xl mb-2 block" aria-hidden="true">{f.icon}</span>
             <h3 class="font-serif text-base sm:text-lg tracking-tight mb-1.5" style="color: var(--text-card);">{f.title}</h3>
             <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">{f.description}</p>
           </div>

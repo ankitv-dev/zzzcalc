@@ -46,7 +46,14 @@ const ldJson = JSON.stringify({
       (function() {
         try {
           var s = localStorage.getItem("zzzcalc-settings");
-          if (s) { var o = JSON.parse(s); if (o.theme === "light") document.documentElement.dataset.theme = "light"; }
+          if (s) {
+            var o = JSON.parse(s);
+            if (o.theme === "light") {
+              document.documentElement.dataset.theme = "light";
+              var m = document.querySelector("meta[name=theme-color]");
+              if (m) m.content = "#faf9f5";
+            }
+          }
         } catch(e) {}
       })();
     </script>
@@ -82,7 +89,13 @@ const ldJson = JSON.stringify({
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" />
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <style is:global>
+      .skip-link { position: absolute; top: -100%; left: 0; z-index: 999; padding: 0.5rem 1rem; background: var(--color-primary); color: var(--color-on-primary); font-size: 0.875rem; font-weight: 500; border-radius: 0 0 0.5rem 0; transition: top 0.15s ease; }
+      .skip-link:focus { top: 0; }
+      [id] { scroll-margin-top: 4rem; }
+    </style>
 
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-X5G8VC37DL"></script>
@@ -90,10 +103,11 @@ const ldJson = JSON.stringify({
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-      gtag('config', 'G-X5G8VC37DL');
+      gtag('config', 'G-X5G8VC37DL', { anonymize_ip: true });
     </script>
   </head>
   <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot />
   </body>
 </html>

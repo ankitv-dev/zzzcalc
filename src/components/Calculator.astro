@@ -18,7 +18,7 @@ const latencyDefault = 14;
     <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
       <div class="flex-1 min-w-0">
         <label class="sleep-label" for="time-input">Time</label>
-        <input id="time-input" type="time" class="sleep-input" value="07:00" />
+        <input id="time-input" type="time" name="wake-time" autocomplete="off" class="sleep-input" value="07:00" />
       </div>
       <div class="flex-1 min-w-0">
         <label class="sleep-label" for="latency-slider">
@@ -26,7 +26,7 @@ const latencyDefault = 14;
         </label>
         <div class="flex items-center gap-2">
           <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">5</span>
-          <input id="latency-slider" type="range" min="5" max="45" step="1" value={latencyDefault}
+          <input id="latency-slider" type="range" name="sleep-latency" min="5" max="45" step="1" value={latencyDefault}
             class="flex-1 h-1.5 rounded-full appearance-none cursor-pointer"
             style="background: var(--bg-soft); accent-color: var(--color-primary);" />
           <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">45</span>
@@ -38,7 +38,7 @@ const latencyDefault = 14;
       </div>
     </div>
 
-    <div id="results" class="mt-6 space-y-2">
+    <div id="results" class="mt-6 space-y-2" aria-live="polite">
       <div id="results-label" class="text-xs sm:text-sm mb-3" style="color: var(--text-muted);">
         Optimal bedtimes to wake up refreshed
       </div>
@@ -235,7 +235,7 @@ const latencyDefault = 14;
         width: 100%; text-align: left; display: flex; align-items: center;
         gap: 0.75rem; padding: 0.75rem; border-radius: 0.5rem;
         border: 1px solid ${borderColor}; cursor: pointer;
-        transition: all 0.15s ease;
+        transition: background 0.15s ease, border-color 0.15s ease;
         background: color-mix(in srgb, ${bgColor} ${parseFloat(bgOpacity)*100}%, transparent);
         border-color: color-mix(in srgb, ${borderColor} ${parseFloat(borderOpacity)*100}%, transparent);
       `;
@@ -409,27 +409,4 @@ const latencyDefault = 14;
   .result-card { font-family: var(--font-sans); }
   .result-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
   .copy-btn svg { pointer-events: none; display: block; }
-
-  input[type="range"].sleep-range {
-    -webkit-appearance: none;
-    appearance: none;
-    height: 6px;
-    border-radius: 3px;
-    cursor: pointer;
-  }
-  input[type="range"].sleep-range::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
-  input[type="range"].sleep-range::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
-    cursor: pointer;
-    border: none;
-  }
 </style>
