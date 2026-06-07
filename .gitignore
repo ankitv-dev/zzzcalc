@@ -32,8 +32,8 @@ pnpm-debug.log*
 # design reference (untracked)
 /DESIGN.md
 
-# build utilities
-scripts/
+# build output
+public/og-image.png
 
 # OS metadata
 Thumbs.db

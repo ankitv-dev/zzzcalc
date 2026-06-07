@@ -1,5 +1,11 @@
 ---
-
+const copyright = `2025–${new Date().getFullYear()}`;
+const bottomLinks = [
+  { href: "/privacy", label: "Privacy" },
+  { href: "/terms", label: "Terms" },
+  { href: "/about", label: "About" },
+  { href: "/contact", label: "Contact" },
+];
 ---
 
 <footer style="border-top: 1px solid var(--footer-border); margin-top: 6rem;">
@@ -44,12 +50,11 @@
       </div>
     </div>
     <div class="mt-10 pt-6 flex flex-col sm:flex-row items-center justify-between gap-3" style="border-top: 1px solid var(--footer-border);">
-      <p class="text-xs" style="color: var(--text-muted);">&copy; {new Date().getFullYear()} ZzzCalc. Wake up refreshed.</p>
+      <p class="text-xs" style="color: var(--text-muted);">&copy; {copyright} ZzzCalc. Wake up refreshed.</p>
       <div class="flex items-center gap-3 text-xs" style="color: var(--text-muted);">
-        <a href="/privacy" class="footer-link">Privacy</a>
-        <a href="/terms" class="footer-link">Terms</a>
-        <a href="/about" class="footer-link">About</a>
-        <a href="/contact" class="footer-link">Contact</a>
+        {bottomLinks.map((l) => (
+          <a href={l.href} class="footer-link">{l.label}</a>
+        ))}
       </div>
     </div>
   </div>

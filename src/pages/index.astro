@@ -7,12 +7,14 @@ import ScienceCard from "../components/ScienceCard.astro";
 import Calculator from "../components/Calculator.astro";
 import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
+import { faqStructuredData } from "../lib/faq-data.js";
 ---
 
 <Layout
   title="ZzzCalc - Wake Up Refreshed"
   description="A sleep cycle calculator based on 90-minute REM cycles. Find your ideal bedtime or wake-up time and wake up refreshed. REM sleep cycle calculator with age adjustments for teens, adults, and seniors."
   canonical="https://zzzcalc.vercel.app"
+  structuredData={[faqStructuredData]}
 >
   <Nav />
   <Hero />

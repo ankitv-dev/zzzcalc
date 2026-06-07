@@ -44,43 +44,21 @@ const links = [
 </style>
 
 <script is:inline>
-  document.addEventListener("DOMContentLoaded", initTheme);
-  if (document.readyState !== "loading") initTheme();
-
-  function initTheme() {
-    const toggle = document.getElementById("theme-toggle");
+  document.getElementById("theme-toggle")?.addEventListener("click", () => {
+    const current = document.documentElement.dataset.theme || "dark";
+    const next = current === "dark" ? "light" : "dark";
+    document.documentElement.dataset.theme = next;
     const moonIcon = document.getElementById("theme-icon-moon");
     const sunIcon = document.getElementById("theme-icon-sun");
-    if (!toggle) return;
-
-    const saved = localStorage.getItem("zzzcalc-settings");
-    let theme = "dark";
-    if (saved) {
-      try { const s = JSON.parse(saved); if (s.theme) theme = s.theme; } catch (e) {}
-    }
-
-    applyThemeUI(theme);
-
-    toggle.addEventListener("click", () => {
-      const current = document.documentElement.dataset.theme || "dark";
-      const next = current === "dark" ? "light" : "dark";
-      applyThemeUI(next);
-      try {
-        const saved = localStorage.getItem("zzzcalc-settings");
-        const settings = saved ? JSON.parse(saved) : {};
-        settings.theme = next;
-        localStorage.setItem("zzzcalc-settings", JSON.stringify(settings));
-      } catch (e) {}
-    });
-  }
-
-  function applyThemeUI(theme) {
-    document.documentElement.dataset.theme = theme;
-    const moonIcon = document.getElementById("theme-icon-moon");
-    const sunIcon = document.getElementById("theme-icon-sun");
-    if (moonIcon) moonIcon.classList.toggle("hidden", theme !== "dark");
-    if (sunIcon) sunIcon.classList.toggle("hidden", theme !== "light");
+    if (moonIcon) moonIcon.classList.toggle("hidden", next !== "dark");
+    if (sunIcon) sunIcon.classList.toggle("hidden", next !== "light");
     const m = document.querySelector("meta[name=theme-color]");
-    if (m) m.content = theme === "light" ? "#faf9f5" : "#181715";
-  }
+    if (m) m.content = next === "light" ? "#faf9f5" : "#181715";
+    try {
+      const saved = localStorage.getItem("zzzcalc-settings");
+      const settings = saved ? JSON.parse(saved) : {};
+      settings.theme = next;
+      localStorage.setItem("zzzcalc-settings", JSON.stringify(settings));
+    } catch (e) {}
+  });
 </script>

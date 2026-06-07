@@ -9,7 +9,9 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "format": "prettier --write \"src/**/*.{astro,ts,js,css,json}\"",
+    "format:check": "prettier --check \"src/**/*.{astro,ts,js,css,json}\""
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
@@ -17,6 +19,7 @@
     "astro": "^6.4.4"
   },
   "devDependencies": {
-    "@playwright/test": "^1.60.0"
+    "@playwright/test": "^1.60.0",
+    "prettier": "^3.8.3"
   }
 }

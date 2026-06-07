@@ -58,6 +58,8 @@ const napTypes = [
 </div>
 
 <script>
+  import { formatTime } from "../lib/format.js";
+
   const napOptions = document.querySelectorAll(".nap-option");
   const napDisplay = document.getElementById("nap-timer-display");
   const napReady = document.getElementById("nap-ready");
@@ -79,12 +81,14 @@ const napTypes = [
     opt.addEventListener("click", () => {
       if (isRunning) return;
       napOptions.forEach((o) => {
-        o.style.background = "var(--bg-soft)";
-        o.style.borderColor = "var(--border-card)";
+        o.className = o.className.replace(" nap-option-selected", "") + " nap-option-default";
+        o.style.background = "";
+        o.style.borderColor = "";
       });
-      opt.style.background = "color-mix(in srgb, var(--color-primary) 10%, transparent)";
-      opt.style.borderColor = "color-mix(in srgb, var(--color-primary) 30%, transparent)";
-      selectedMinutes = parseInt(opt.dataset.duration);
+      opt.className = opt.className.replace(" nap-option-default", "") + " nap-option-selected";
+      opt.style.background = "";
+      opt.style.borderColor = "";
+      selectedMinutes = parseInt(opt.dataset.duration, 10);
     });
   });
 
@@ -109,7 +113,7 @@ const napTypes = [
     timerWake.textContent = `Wake up at ${formatTime(endTime)}`;
 
     updateTimer();
-    countdownTimer = setInterval(updateTimer, 100);
+    countdownTimer = setInterval(updateTimer, 1000);
   }
 
   function updateTimer() {
@@ -129,7 +133,8 @@ const napTypes = [
     const secs = totalSec % 60;
     timerCountdown.textContent = `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 
-    const progress = 1 - (totalSec / (selectedMinutes * 60));
+    const elapsed = selectedMinutes * 60 - totalSec;
+    const progress = elapsed / (selectedMinutes * 60);
     timerRing.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
   }
 
@@ -146,16 +151,9 @@ const napTypes = [
     napReady.classList.add("hidden");
 
     napOptions.forEach((o) => {
-      o.style.background = "var(--bg-soft)";
-      o.style.borderColor = "var(--border-card)";
+      o.className = o.className.replace(" nap-option-selected", "") + " nap-option-default";
+      o.style.background = "";
+      o.style.borderColor = "";
     });
-  }
-
-  function formatTime(date) {
-    let h = date.getHours();
-    const m = date.getMinutes().toString().padStart(2, "0");
-    const ap = h >= 12 ? "PM" : "AM";
-    h = h % 12 || 12;
-    return `${h}:${m} ${ap}`;
   }
 </script>
