@@ -8,15 +8,15 @@ import Footer from "./Footer.astro";
   <div class="card-primary">
     <form id="calc-form" class="contents">
       <div class="flex gap-1 p-1 rounded-lg mb-5" style="background: var(--bg-tab);">
-        <button id="mode-wake" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="wake" style="background: var(--color-primary); color: var(--color-on-primary);">
+        <button type="button" id="mode-wake" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="wake" style="background: var(--color-primary); color: var(--color-on-primary);">
           <span class="hidden sm:inline">Wake up at</span>
           <span class="sm:hidden">Wake</span>
         </button>
-        <button id="mode-bed" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="bed" style="background: transparent; color: var(--text-muted);">
+        <button type="button" id="mode-bed" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="bed" style="background: transparent; color: var(--text-muted);">
           <span class="hidden sm:inline">Bed now</span>
           <span class="sm:hidden">Bed</span>
         </button>
-        <button id="mode-dur" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="dur" style="background: transparent; color: var(--text-muted);">
+        <button type="button" id="mode-dur" class="tab-btn flex-1 px-2 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="dur" style="background: transparent; color: var(--text-muted);">
           <span class="hidden sm:inline">Sleep length</span>
           <span class="sm:hidden">Hours</span>
         </button>
@@ -103,11 +103,11 @@ import Footer from "./Footer.astro";
     </div>
 
     <div class="mt-4 flex flex-wrap gap-2 text-xs">
-      <button id="share-btn" class="hidden px-3 py-1.5 rounded-md"
+      <button type="button" id="share-btn" class="hidden px-3 py-1.5 rounded-md"
         style="background: var(--bg-soft); color: var(--text-muted); border: 1px solid var(--border-card); cursor: pointer; font-family: var(--font-sans); transition: background 0.15s;">
         Share
       </button>
-      <button id="reset-settings-btn" class="px-3 py-1.5 rounded-md"
+      <button type="button" id="reset-settings-btn" class="px-3 py-1.5 rounded-md"
         style="background: transparent; color: var(--text-muted-soft); border: 1px solid transparent; cursor: pointer; font-family: var(--font-sans);">
         Reset
       </button>
