@@ -131,12 +131,6 @@ const latencyDefault = 14;
     modeBed.addEventListener("click", () => { setMode("bed"); saveSettings(); });
   }
 
-  const css = getComputedStyle(document.documentElement);
-
-  function getCSSVar(name) {
-    try { return css.getPropertyValue(name).trim() || `var(${name})`; } catch(e) { return `var(${name})`; }
-  }
-
   function setMode(mode) {
     currentMode = mode;
     const activeBg = "var(--color-primary)";

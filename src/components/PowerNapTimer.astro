@@ -75,10 +75,6 @@ const napTypes = [
 
   const CIRCUMFERENCE = 283;
 
-  function getCSSVar(name) {
-    try { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); } catch(e) { return ""; }
-  }
-
   napOptions.forEach((opt) => {
     opt.addEventListener("click", () => {
       if (isRunning) return;
