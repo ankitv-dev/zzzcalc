@@ -19,7 +19,7 @@ import { CHRONOTYPE_QUESTIONS } from "../lib/cycles.js";
         <div class="space-y-1.5 ml-7">
           {q.options.map((opt) => (
             <label class="quiz-option flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer text-sm" style="border: 1px solid var(--border-card); background: var(--bg-soft); transition: all 0.15s;">
-              <input type="radio" name="q-{i}" value={opt.value} class="quiz-radio" />
+              <input type="radio" name={`q-${i}`} value={opt.value} class="quiz-radio" />
               <span style="color: var(--text-card-muted);">{opt.label}</span>
             </label>
           ))}
