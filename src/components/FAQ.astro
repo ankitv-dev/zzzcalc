@@ -1,0 +1,84 @@
+---
+const faqs = [
+  {
+    id: "90-minute-rule",
+    question: "What is the 90-minute sleep cycle rule?",
+    answer: "Human sleep is not a uniform state of rest; instead, your brain progresses through distinct, predictable stages that collectively form a sleep cycle. A single complete cycle\u2014moving from light sleep (N1, N2) to deep slow-wave sleep (N3), and finally into Rapid Eye Movement (REM) sleep\u2014takes an average of 90 minutes (typically ranging from 80 to 110 minutes). Waking up at the end of a full 90-minute cycle, when your brain is naturally returning to a state of light sleep, allows you to wake up feeling clean, alert, and refreshed.",
+  },
+  {
+    id: "tired-after-8-hours",
+    question: "Why do I still feel incredibly tired after sleeping for 8 hours?",
+    answer: "Sleep quality and timing matter just as much as sleep duration. If you sleep for a full 8 hours but your alarm forcefully wakes you up in the middle of a deep N3 or REM sleep phase, you disrupt your sleep architecture. This triggers a biological phenomenon known as sleep inertia\u2014the heavy, disoriented grogginess caused by high levels of adenosine remaining in the brain. Zzzcalc optimizes your bedtime to ensure your alarm rings right as you naturally complete a cycle.",
+  },
+  {
+    id: "how-calculates-bedtime",
+    question: "How does Zzzcalc calculate my ideal bedtime?",
+    answer: "The calculator uses a clean backward-and-forward tracking algorithm based on your inputs. If you need to wake up at 7:00 AM, the tool counts backward in 90-minute increments (7.5 hours, 9 hours, etc.) to find your optimal sleep windows. Critically, Zzzcalc factors in a default 14-minute sleep latency window\u2014the average time it takes a healthy human to transition from fully awake to biologically asleep\u2014so you do not miss your cycle target.",
+  },
+  {
+    id: "customize-latency",
+    question: "Can I customize how long it takes me to fall asleep?",
+    answer: "Yes. Unlike standard calculators that lock you into a rigid fallback number, Zzzcalc includes a Snooze/Delay Latency slider. If you typically read in bed and take 25 minutes to drift off, or if you consistently fall asleep within 5 minutes, you can adjust this setting. The entire calculation timeline recalibrates instantly.",
+  },
+  {
+    id: "6-vs-7-hours",
+    question: "Is it better to get 6 hours of sleep or 7 hours?",
+    answer: "In theory, 6 hours (4 cycles) puts your wake time at a cleaner cycle boundary than 7 hours (4.67 cycles). However, the 90-minute model is an average, not a law. By cycle 5, deep N3 sleep is minimal and REM dominates, so the grogginess penalty of waking at 7 hours is often less severe than the math suggests. For most adults, 7.5 hours (5 cycles) or 9 hours (6 cycles) remains the healthiest target. The calculator helps you make this trade-off consciously rather than at random.",
+  },
+  {
+    id: "power-nap-length",
+    question: "How long should an effective power nap be?",
+    answer: "To avoid sleep inertia during the day, you should aim for one of two distinct windows: The 20-Minute Power Nap keeps you strictly within light N2 sleep to boost alertness, motor memory, and energy without any grogginess. The 90-Minute Full Nap allows your body to complete one full uninterrupted cycle, providing deep muscle recovery and creative problem-solving benefits. Avoid 45-to-60-minute naps, as they trap you in slow-wave deep sleep.",
+  },
+  {
+    id: "sleep-cycle-age",
+    question: "Does my sleep cycle change as I get older?",
+    answer: "Yes. As humans age, the production of growth hormones and melatonin drops naturally. This results in a significant reduction in deep N3 slow-wave sleep and causes sleep to become more fragmented. While infants require up to 17 hours of sleep to facilitate rapid neurological development, healthy adults require 7 to 9 hours, and seniors typically settle into 7 to 8 hours.",
+  },
+];
+---
+
+<section class="py-12 sm:py-20">
+  <div class="container-main">
+    <div class="max-w-3xl mx-auto">
+      <h2 class="font-serif text-xl sm:text-2xl tracking-tight mb-2 text-center" style="color: var(--text-page);">
+        Frequently Asked Questions
+      </h2>
+      <p class="text-sm text-center mb-8 sm:mb-10" style="color: var(--text-muted);">
+        About sleep cycles, timing, and how the calculator works.
+      </p>
+
+      <div class="space-y-3">
+        {faqs.map((faq) => (
+          <details class="card-primary group open:opacity-100 transition-all cursor-pointer" style="padding: 0;">
+            <summary class="flex items-center justify-between gap-3 px-4 sm:px-5 py-3.5 sm:py-4 text-sm sm:text-base font-medium list-none cursor-pointer" style="color: var(--text-card);">
+              <span>{faq.question}</span>
+              <svg class="w-4 h-4 shrink-0 transition-transform duration-200 group-open:rotate-180" style="color: var(--text-muted);" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </summary>
+            <div class="px-4 sm:px-5 pb-4 sm:pb-5 text-sm leading-relaxed border-t pt-3" style="color: var(--text-card-muted); border-color: var(--border-card);">
+              {faq.answer}
+            </div>
+          </details>
+        ))}
+      </div>
+
+      <!-- FAQ JSON-LD for Google Rich Results -->
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          "mainEntity": faqs.map((faq) => ({
+            "@type": "Question",
+            "name": faq.question,
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": faq.answer,
+            },
+          })),
+        })}
+      </script>
+    </div>
+  </div>
+</section>

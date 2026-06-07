@@ -1,0 +1,57 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import PowerNapTimer from "../components/PowerNapTimer.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Power Nap Timer — Sleep Cycle Calculator | Zzzcalc"
+  description="Free power nap timer with NASA-backed protocols. Choose a 20-minute power nap, 15-minute coffee nap, or 90-minute full cycle. Wake up refreshed, not groggy."
+  canonical="https://zzzcalc.com/nap"
+>
+  <Nav />
+
+  <section class="pt-28 pb-12 sm:pt-40 sm:pb-20">
+    <div class="container-main">
+      <div class="max-w-2xl mx-auto">
+        <div class="text-center mb-6 sm:mb-8">
+          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-xs font-medium mb-3 sm:mb-4" style="background: color-mix(in srgb, var(--color-primary) 10%, transparent); border: 1px solid color-mix(in srgb, var(--color-primary) 20%, transparent); color: var(--color-primary);">
+            ⏱️ NASA-backed protocol
+          </div>
+          <h1 class="font-serif text-2xl sm:text-4xl lg:text-5xl tracking-tight" style="color: var(--text-page);">
+            Power Nap Timer
+          </h1>
+          <p class="text-sm mt-2 sm:mt-3 max-w-md mx-auto" style="color: var(--text-muted);">
+            Time your nap to wake at the end of a sleep stage — not mid-deep-sleep. Avoid sleep inertia and feel alert faster.
+          </p>
+        </div>
+
+        <PowerNapTimer />
+
+        <div class="mt-6 sm:mt-8 card-primary">
+          <h3 class="text-xs font-semibold uppercase tracking-widest mb-3" style="color: var(--text-muted);">Nap timing guide</h3>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 text-sm">
+            <div class="p-3 rounded-lg" style="background: var(--bg-soft);">
+              <span class="font-medium block mb-1" style="color: var(--color-primary);">⚡ Power Nap (20m)</span>
+              <span class="text-xs" style="color: var(--text-card-muted);">N1/N2 only. Boosts alertness and motor performance without grogginess. Best for a midday reset.</span>
+            </div>
+            <div class="p-3 rounded-lg" style="background: var(--bg-soft);">
+              <span class="font-medium block mb-1" style="color: var(--color-primary);">☕ Coffee Nap (15m)</span>
+              <span class="text-xs" style="color: var(--text-card-muted);">Drink coffee, then nap immediately. Wake up right as the caffeine kicks in. Double the alertness boost.</span>
+            </div>
+            <div class="p-3 rounded-lg" style="background: var(--bg-soft);">
+              <span class="font-medium block mb-1" style="color: var(--color-primary);">🌙 Full Cycle (90m)</span>
+              <span class="text-xs" style="color: var(--text-card-muted);">Complete REM cycle. Best for creativity, emotional reset, and memory consolidation. Takes longer to wake from.</span>
+            </div>
+          </div>
+          <p class="text-[10px] mt-4" style="color: var(--text-muted-soft);">
+            Avoid 30-60 minute naps — they wake you mid-N3 deep sleep, causing 20-45 minutes of sleep inertia.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

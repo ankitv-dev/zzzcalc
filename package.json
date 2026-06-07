@@ -1,5 +1,5 @@
 {
-  "name": "galactic-gravity",
+  "name": "zzzcalc",
   "type": "module",
   "version": "0.0.1",
   "engines": {
@@ -12,6 +12,9 @@
     "astro": "astro"
   },
   "dependencies": {
+    "@astrojs/sitemap": "^3.7.3",
+    "@playwright/test": "^1.60.0",
+    "@tailwindcss/vite": "^4.3.0",
     "astro": "^6.4.4"
   }
 }

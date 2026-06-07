@@ -1,0 +1,441 @@
+---
+const latencyDefault = 14;
+---
+
+<div id="calculator" class="w-full">
+  <div class="card-primary">
+    <div class="flex gap-1 p-1 rounded-lg mb-5" style="background: var(--bg-tab);">
+      <button id="mode-wake" class="tab-btn flex-1 px-3 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="wake" style="background: var(--color-primary); color: var(--color-on-primary);">
+        <span class="hidden sm:inline">I want to wake up at</span>
+        <span class="sm:hidden">Wake up</span>
+      </button>
+      <button id="mode-bed" class="tab-btn flex-1 px-3 sm:px-4 py-2.5 text-sm font-medium rounded-md transition-all" data-mode="bed" style="background: transparent; color: var(--text-muted);">
+        <span class="hidden sm:inline">I'm going to bed now</span>
+        <span class="sm:hidden">Go to bed</span>
+      </button>
+    </div>
+
+    <div class="flex flex-col sm:flex-row gap-4 sm:gap-6">
+      <div class="flex-1 min-w-0">
+        <label class="sleep-label" for="time-input">Time</label>
+        <input id="time-input" type="time" class="sleep-input" value="07:00" />
+      </div>
+      <div class="flex-1 min-w-0">
+        <label class="sleep-label" for="latency-slider">
+          Latency: <span id="latency-value" style="color: var(--color-primary); font-weight: 500;">{latencyDefault} min</span>
+        </label>
+        <div class="flex items-center gap-2">
+          <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">5</span>
+          <input id="latency-slider" type="range" min="5" max="45" step="1" value={latencyDefault}
+            class="flex-1 h-1.5 rounded-full appearance-none cursor-pointer"
+            style="background: var(--bg-soft); accent-color: var(--color-primary);" />
+          <span class="text-xs shrink-0 w-5 text-center" style="color: var(--text-muted);">45</span>
+        </div>
+        <div class="flex justify-between mt-0.5">
+          <span class="text-[10px]" style="color: var(--text-muted-soft);">Fast sleeper</span>
+          <span class="text-[10px]" style="color: var(--text-muted-soft);">Slow sleeper</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="results" class="mt-6 space-y-2">
+      <div id="results-label" class="text-xs sm:text-sm mb-3" style="color: var(--text-muted);">
+        Optimal bedtimes to wake up refreshed
+      </div>
+      <div id="results-list" class="space-y-2">
+        <div class="flex items-center gap-3 p-3 rounded-lg opacity-40" style="background: var(--bg-soft); border: 1px solid var(--border-card);">
+          <span class="w-2 h-2 rounded-full" style="background: var(--text-muted);"></span>
+          <span class="text-sm" style="color: var(--text-muted);">Select a time above</span>
+        </div>
+      </div>
+    </div>
+
+    <div id="cycle-timeline-container" class="mt-5 hidden">
+      <div class="flex items-center justify-between mb-2">
+        <span class="sleep-label">Sleep Timeline</span>
+        <span id="selected-cycle-info" class="text-xs" style="color: var(--text-muted);"></span>
+      </div>
+      <div id="cycle-timeline" class="overflow-x-auto pb-2 -mx-1 px-1">
+        <div id="timeline-bars" class="min-w-[320px] sm:min-w-[400px]"></div>
+      </div>
+      <div id="cycle-legend" class="flex flex-wrap gap-x-3 gap-y-1 mt-2 text-xs" style="color: var(--text-muted);"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const CYCLE_LENGTH = 90;
+  const DEFAULT_LATENCY = 14;
+
+  const timeInput = document.getElementById("time-input");
+  const latencySlider = document.getElementById("latency-slider");
+  const latencyValue = document.getElementById("latency-value");
+  const resultsList = document.getElementById("results-list");
+  const resultsLabel = document.getElementById("results-label");
+  const modeWake = document.getElementById("mode-wake");
+  const modeBed = document.getElementById("mode-bed");
+  const timelineContainer = document.getElementById("cycle-timeline-container");
+  const timelineBars = document.getElementById("timeline-bars");
+  const cycleLegend = document.getElementById("cycle-legend");
+  const selectedCycleInfo = document.getElementById("selected-cycle-info");
+
+  let currentMode = "wake";
+  let selectedCycles = 5;
+
+  function loadSettings() {
+    try {
+      const saved = localStorage.getItem("zzzcalc-settings");
+      if (saved) {
+        const settings = JSON.parse(saved);
+        if (settings.time) timeInput.value = settings.time;
+        if (settings.latency) {
+          latencySlider.value = settings.latency;
+          latencyValue.textContent = `${settings.latency} min`;
+        }
+        if (settings.mode) setMode(settings.mode);
+        if (settings.theme === "light") {
+          document.documentElement.dataset.theme = "light";
+        }
+      }
+    } catch (e) {}
+  }
+
+  function saveSettings() {
+    try {
+      const settings = {
+        time: timeInput.value,
+        latency: latencySlider.value,
+        mode: currentMode,
+        theme: document.documentElement.dataset.theme || "dark",
+      };
+      localStorage.setItem("zzzcalc-settings", JSON.stringify(settings));
+    } catch (e) {}
+  }
+
+  function init() {
+    loadSettings();
+    setupEventListeners();
+    setMode(currentMode);
+    calculate();
+  }
+
+  function setupEventListeners() {
+    timeInput.addEventListener("change", () => { calculate(); saveSettings(); });
+    timeInput.addEventListener("input", calculate);
+    latencySlider.addEventListener("input", () => {
+      latencyValue.textContent = `${latencySlider.value} min`;
+      calculate();
+    });
+    latencySlider.addEventListener("change", saveSettings);
+    modeWake.addEventListener("click", () => { setMode("wake"); saveSettings(); });
+    modeBed.addEventListener("click", () => { setMode("bed"); saveSettings(); });
+  }
+
+  const css = getComputedStyle(document.documentElement);
+
+  function getCSSVar(name) {
+    try { return css.getPropertyValue(name).trim() || `var(${name})`; } catch(e) { return `var(${name})`; }
+  }
+
+  function setMode(mode) {
+    currentMode = mode;
+    const activeBg = "var(--color-primary)";
+    const activeText = "var(--color-on-primary)";
+    const inactiveText = "var(--text-muted)";
+
+    if (mode === "wake") {
+      modeWake.style.background = activeBg;
+      modeWake.style.color = activeText;
+      modeBed.style.background = "transparent";
+      modeBed.style.color = inactiveText;
+    } else {
+      modeWake.style.background = "transparent";
+      modeWake.style.color = inactiveText;
+      modeBed.style.background = activeBg;
+      modeBed.style.color = activeText;
+    }
+    calculate();
+  }
+
+  function calculate() {
+    const timeVal = timeInput.value;
+    if (!timeVal) return;
+    const [hours, minutes] = timeVal.split(":").map(Number);
+    const now = new Date();
+    const baseDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), hours, minutes, 0);
+    const latency = parseInt(latencySlider.value) || DEFAULT_LATENCY;
+
+    if (currentMode === "wake") {
+      calculateBedtimes(baseDate, latency);
+    } else {
+      calculateWakeTimes(baseDate, latency);
+    }
+  }
+
+  function calculateBedtimes(wakeTime, latency) {
+    const results = [];
+    for (let cycles = 3; cycles <= 6; cycles++) {
+      const totalMinutes = cycles * CYCLE_LENGTH;
+      const bedtime = new Date(wakeTime.getTime() - (totalMinutes + latency) * 60000);
+      results.push({ cycles, time: bedtime, duration: totalMinutes / 60, quality: getQuality(cycles) });
+    }
+    renderResults(results, "Go to bed at");
+    resultsLabel.textContent = "Optimal bedtimes to wake up refreshed";
+  }
+
+  function calculateWakeTimes(bedTime, latency) {
+    const results = [];
+    for (let cycles = 3; cycles <= 6; cycles++) {
+      const totalMinutes = cycles * CYCLE_LENGTH;
+      const wakeTime = new Date(bedTime.getTime() + (latency + totalMinutes) * 60000);
+      results.push({ cycles, time: wakeTime, duration: totalMinutes / 60, quality: getQuality(cycles) });
+    }
+    renderResults(results, "Wake up at");
+    resultsLabel.textContent = "Best times to set your alarm";
+  }
+
+  function getQuality(cycles) {
+    switch (cycles) {
+      case 5: return { label: "Best", score: 5, color: "#5db872" };
+      case 6: return { label: "Great", score: 4, color: "#8fc97b" };
+      case 4: return { label: "Okay", score: 3, color: "#ccb56e" };
+      case 3: return { label: "Groggy", score: 2, color: "#cc785c" };
+      default: return { label: "Avoid", score: 1, color: "#c64545" };
+    }
+  }
+
+  function formatTime(date) {
+    let h = date.getHours();
+    const m = date.getMinutes().toString().padStart(2, "0");
+    const ap = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return `${h}:${m} ${ap}`;
+  }
+
+  function formatHourMin(date) {
+    let h = date.getHours();
+    const m = date.getMinutes().toString().padStart(2, "0");
+    h = h % 12 || 12;
+    return `${h}:${m}`;
+  }
+
+  function formatAmPm(date) {
+    return date.getHours() >= 12 ? "PM" : "AM";
+  }
+
+  function renderResults(results, label) {
+    resultsList.innerHTML = "";
+
+    results.forEach((r) => {
+      const isSelected = r.cycles === selectedCycles;
+      const card = document.createElement("button");
+      card.className = "result-card";
+      card.dataset.cycles = r.cycles;
+
+      const bgColor = isSelected ? "var(--color-primary)" : "var(--bg-soft)";
+      const borderColor = isSelected ? "var(--color-primary)" : "var(--border-card)";
+      const bgOpacity = isSelected ? "0.1" : "1";
+      const borderOpacity = isSelected ? "0.3" : "1";
+
+      card.style.cssText = `
+        width: 100%; text-align: left; display: flex; align-items: center;
+        gap: 0.75rem; padding: 0.75rem; border-radius: 0.5rem;
+        border: 1px solid ${borderColor}; cursor: pointer;
+        transition: all 0.15s ease;
+        background: color-mix(in srgb, ${bgColor} ${parseFloat(bgOpacity)*100}%, transparent);
+        border-color: color-mix(in srgb, ${borderColor} ${parseFloat(borderOpacity)*100}%, transparent);
+      `;
+
+      if (!isSelected) {
+        card.onmouseenter = () => { card.style.borderColor = "var(--border-card-hover)"; };
+        card.onmouseleave = () => { card.style.borderColor = borderColor; };
+      }
+
+      const highlight = r.quality.color;
+
+      card.innerHTML = `
+        <div class="flex-1 min-w-0">
+          <div class="flex items-baseline gap-1.5 mb-0.5">
+            <span class="time-display" style="font-size: clamp(1.1rem, 4vw, 1.5rem);">${formatHourMin(r.time)}</span>
+            <span class="text-xs font-medium" style="color: var(--text-muted);">${formatAmPm(r.time)}</span>
+          </div>
+          <div class="flex items-center gap-2 text-xs" style="color: var(--text-muted);">
+            <span>${r.cycles} cycles</span>
+            <span>·</span>
+            <span>${r.duration}h sleep</span>
+          </div>
+        </div>
+        <div class="flex items-center gap-1.5 shrink-0">
+          <span style="color: ${highlight}; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;">${r.quality.label}</span>
+          <button class="copy-btn" data-time="${formatTime(r.time)}" title="Copy to clipboard"
+            style="padding: 0.375rem; border-radius: 0.375rem; border: none; cursor: pointer; background: transparent; color: var(--text-muted);">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+          </button>
+        </div>
+      `;
+
+      card.addEventListener("click", (e) => {
+        if (e.target.closest(".copy-btn")) return;
+        selectCycle(r.cycles);
+      });
+
+      const copyBtn = card.querySelector(".copy-btn");
+      copyBtn.addEventListener("click", (e) => {
+        e.stopPropagation();
+        const time = copyBtn.dataset.time;
+        navigator.clipboard.writeText(time).then(() => {
+          const original = copyBtn.innerHTML;
+          copyBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+          setTimeout(() => { copyBtn.innerHTML = original; }, 2000);
+        });
+      });
+
+      resultsList.appendChild(card);
+    });
+
+    selectCycle(selectedCycles);
+  }
+
+  function selectCycle(cycles) {
+    selectedCycles = cycles;
+
+    document.querySelectorAll(".result-card").forEach((card) => {
+      const c = parseInt(card.dataset.cycles);
+      const isSel = c === cycles;
+      const bgColor = "var(--color-primary)";
+      const borderColor = "var(--color-primary)";
+      card.style.background = isSel ? `color-mix(in srgb, ${bgColor} 10%, transparent)` : "var(--bg-soft)";
+      card.style.borderColor = isSel ? `color-mix(in srgb, ${borderColor} 30%, transparent)` : "var(--border-card)";
+    });
+
+    renderTimeline(cycles);
+  }
+
+  function renderTimeline(cycles) {
+    timelineContainer.classList.remove("hidden");
+    const totalMin = cycles * CYCLE_LENGTH;
+    selectedCycleInfo.textContent = `${cycles} cycles · ${totalMin / 60}h total`;
+
+    const stageDefs = [];
+    for (let c = 0; c < cycles; c++) {
+      const start = c * CYCLE_LENGTH;
+      const isLaterCycle = c >= 2;
+      if (!isLaterCycle) {
+        stageDefs.push({ cycle: c, stage: "N3", label: "Deep", start, dur: 30, color: "#6366f1" });
+        stageDefs.push({ cycle: c, stage: "N2", label: "Light", start: start + 30, dur: 20, color: "#93c5fd" });
+        stageDefs.push({ cycle: c, stage: "N1", label: "Dozing", start: start + 50, dur: 5, color: "#bae6fd" });
+        stageDefs.push({ cycle: c, stage: "REM", label: "Dream", start: start + 55, dur: 35, color: "#fcd34d" });
+      } else {
+        stageDefs.push({ cycle: c, stage: "N2", label: "Light", start, dur: 20, color: "#93c5fd" });
+        stageDefs.push({ cycle: c, stage: "N1", label: "Dozing", start: start + 20, dur: 5, color: "#bae6fd" });
+        stageDefs.push({ cycle: c, stage: "REM", label: "Dream", start: start + 25, dur: 35, color: "#fcd34d" });
+        const n3dur = Math.max(5, 30 - (c - 2) * 8);
+        stageDefs.push({ cycle: c, stage: "N3", label: "Deep", start: start + 60, dur: n3dur, color: "#6366f1" });
+      }
+    }
+
+    timelineBars.innerHTML = "";
+
+    stageDefs.forEach((s) => {
+      const leftPct = (s.start / totalMin) * 100;
+      const wPct = (s.dur / totalMin) * 100;
+
+      const seg = document.createElement("div");
+      seg.className = "absolute top-0 rounded-sm cursor-pointer";
+      seg.style.cssText = `
+        left: ${leftPct}%; width: ${Math.max(wPct, 1.5)}%; height: 28px;
+        background: ${s.color}; opacity: ${s.stage === "REM" ? "0.85" : s.stage === "N3" ? "0.75" : "0.65"};
+        transition: opacity 0.15s;
+      `;
+      seg.onmouseenter = () => { seg.style.opacity = "1"; };
+      seg.onmouseleave = () => { seg.style.opacity = s.stage === "REM" ? "0.85" : s.stage === "N3" ? "0.75" : "0.65"; };
+
+      if (wPct > 8) {
+        seg.textContent = s.label;
+        seg.style.cssText += `
+          font-size: 8px; padding-left: 3px; line-height: 28px;
+          color: ${s.stage === "REM" ? "#1a1a1a" : "#fff"};
+          font-weight: 500; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;
+        `;
+      }
+
+      seg.title = `Cycle ${s.cycle + 1}: ${s.label} Sleep (${s.dur}min)`;
+      timelineBars.appendChild(seg);
+    });
+
+    timelineBars.style.cssText = "position: relative; height: 28px;";
+
+    const stageColors = [
+      { label: "Deep Sleep (N3)", color: "#6366f1" },
+      { label: "Light Sleep (N2)", color: "#93c5fd" },
+      { label: "Dozing (N1)", color: "#bae6fd" },
+      { label: "REM (Dreaming)", color: "#fcd34d" },
+    ];
+
+    cycleLegend.innerHTML = stageColors.map((sc) => `
+      <span class="inline-flex items-center gap-1.5">
+        <span class="w-2 h-2 rounded-sm shrink-0" style="background: ${sc.color}"></span>
+        ${sc.label}
+      </span>
+    `).join("");
+
+    const existingMarkers = timelineContainer.querySelector(".cycle-markers");
+    if (existingMarkers) existingMarkers.remove();
+
+    const markers = document.createElement("div");
+    markers.className = "cycle-markers flex";
+    markers.style.cssText = "justify-content: space-between; margin-top: 0.25rem;";
+    for (let c = 1; c <= cycles; c++) {
+      const dot = document.createElement("span");
+      dot.style.cssText = "font-size: 10px; color: var(--text-muted-soft);";
+      dot.textContent = `${c}`;
+      markers.appendChild(dot);
+    }
+    timelineContainer.appendChild(markers);
+  }
+
+  document.addEventListener("DOMContentLoaded", init);
+  if (document.readyState !== "loading") init();
+</script>
+
+<style is:global>
+  .tab-btn {
+    cursor: pointer;
+    border: none;
+    outline: none;
+    font-family: var(--font-sans);
+  }
+  .tab-btn:focus-visible {
+    outline: 2px solid var(--color-primary);
+    outline-offset: -2px;
+  }
+
+  .result-card { font-family: var(--font-sans); }
+  .result-card:focus-visible { outline: 2px solid var(--color-primary); outline-offset: -2px; }
+  .copy-btn svg { pointer-events: none; display: block; }
+
+  input[type="range"].sleep-range {
+    -webkit-appearance: none;
+    appearance: none;
+    height: 6px;
+    border-radius: 3px;
+    cursor: pointer;
+  }
+  input[type="range"].sleep-range::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+  input[type="range"].sleep-range::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: none;
+  }
+</style>

@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Privacy Policy — Zzzcalc"
+  description="Privacy policy for Zzzcalc sleep cycle calculator. We do not collect, store, or share any personal data. Your sleep preferences stay on your device."
+  canonical="https://zzzcalc.com/privacy"
+>
+  <Nav />
+
+  <section class="pt-28 pb-16 sm:pt-40 sm:pb-24">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2" style="color: var(--text-page);">Privacy Policy</h1>
+        <p class="text-xs mb-8" style="color: var(--text-muted);">Last updated: June 2026</p>
+
+        <div class="space-y-6 text-sm leading-relaxed" style="color: var(--text-card-muted);">
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">1. No Data Collection</h2>
+            <p>Zzzcalc does not collect, store, or transmit any personal data. The sleep cycle calculator runs entirely in your browser. No account creation is required, and no information you enter is sent to any server.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">2. Local Storage</h2>
+            <p>Your preferences — such as your selected wake time, sleep latency, and theme — are stored locally on your device using the browser's localStorage API. This data never leaves your computer or phone. You can clear it at any time by clearing your browser's site data.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">3. No Cookies</h2>
+            <p>Zzzcalc does not use cookies, tracking pixels, or any form of persistent identifier. We have no way to recognize returning users, and we prefer it that way.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">4. No Third-Party Services</h2>
+            <p>We do not embed analytics scripts, advertising networks, social media widgets, or any third-party services that could collect information about you. The only external requests are for the font files (Google Fonts) that make the site readable. Google Fonts requests are subject to Google's privacy policy.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">5. No Data Sharing</h2>
+            <p>Since we collect nothing, we share nothing. There is no data to sell, leak, or hand over. Your use of Zzzcalc is private by design.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">6. Changes to This Policy</h2>
+            <p>If this policy changes in the future, the updated date at the top of this page will reflect the change. The policy will never retroactively apply to data we do not collect.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">7. Contact</h2>
+            <p>If you have questions about this privacy policy, you can reach us through the <a href="/contact" style="color: var(--color-primary);">contact page</a>.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

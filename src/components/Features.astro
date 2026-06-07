@@ -1,0 +1,60 @@
+---
+
+const features = [
+  {
+    icon: "🌙",
+    title: "Dual-Mode Calculator",
+    description: "Tell us when you need to wake up or when you're going to bed. We handle the cycle math either direction.",
+  },
+  {
+    icon: "📊",
+    title: "Visual Cycle Timeline",
+    description: "See your sleep stages — N1, N2, deep sleep, and REM — color-coded across every 90-minute cycle.",
+  },
+  {
+    icon: "⚡",
+    title: "Power Nap Timer",
+    description: "Time your naps perfectly: 20-min power nap, 15-min coffee nap, or a full 90-min REM cycle.",
+  },
+  {
+    icon: "🎯",
+    title: "Personalized Latency",
+    description: "Adjust your sleep onset time from 5 to 45 minutes. The default 14 minutes matches the scientific average.",
+  },
+  {
+    icon: "📋",
+    title: "One-Click Copy",
+    description: "Tap any recommended time to copy it instantly. Paste straight into your alarm clock app.",
+  },
+  {
+    icon: "🔒",
+    title: "Local-First & Private",
+    description: "Your settings stay on your device. No accounts, no tracking, no data collection. Ever.",
+  },
+];
+---
+
+<section class="py-12 sm:py-24">
+  <div class="container-main">
+    <div class="max-w-2xl mx-auto text-center mb-10 sm:mb-16">
+      <h2 class="font-serif text-2xl sm:text-3xl tracking-tight" style="color: var(--text-page);">
+        Why cycle timing matters more than hours slept
+      </h2>
+      <p class="text-sm mt-3 max-w-lg mx-auto" style="color: var(--text-muted);">
+        Eight hours of sleep can leave you groggy if the alarm fires mid-deep-sleep. Waking at a cycle boundary is the difference between foggy and fresh.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+      {
+        features.map((f) => (
+          <div class="card-primary hover:opacity-90 transition-opacity">
+            <span class="text-xl sm:text-2xl mb-2 block">{f.icon}</span>
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-1.5" style="color: var(--text-card);">{f.title}</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">{f.description}</p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

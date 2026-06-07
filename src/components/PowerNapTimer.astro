@@ -1,0 +1,164 @@
+---
+const napTypes = [
+  { id: "power", label: "Power Nap", duration: 20, description: "Alertness boost without grogginess", icon: "⚡" },
+  { id: "coffee", label: "Coffee Nap", duration: 15, description: "Caffeine kicks in as you wake", icon: "☕" },
+  { id: "full", label: "Full Cycle", duration: 90, description: "Complete REM — creativity & reset", icon: "🌙" },
+];
+---
+
+<div id="nap-timer" class="w-full">
+  <div class="card-primary">
+    <h2 class="font-serif text-xl sm:text-2xl tracking-tight mb-1" style="color: var(--text-card);">Power Nap Timer</h2>
+    <p class="text-sm mb-5" style="color: var(--text-card-muted);">Time your nap to wake up refreshed, not groggy</p>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 mb-6">
+      {
+        napTypes.map((nap) => (
+          <button
+            id={`nap-${nap.id}`}
+            class="nap-option text-left flex flex-col gap-1.5 p-3.5 sm:p-4 rounded-lg cursor-pointer transition-all"
+            style="background: var(--bg-soft); border: 1px solid var(--border-card);"
+            data-duration={nap.duration}
+            data-id={nap.id}
+          >
+            <span class="text-lg sm:text-xl">{nap.icon}</span>
+            <span class="text-sm font-medium" style="color: var(--text-card);">{nap.label}</span>
+            <span class="text-xs" style="color: var(--text-card-muted);">{nap.description}</span>
+            <span class="text-xs font-semibold mt-auto pt-1" style="color: var(--color-primary);">{nap.duration} min</span>
+          </button>
+        ))
+      }
+    </div>
+
+    <div id="nap-timer-display" class="hidden text-center py-6">
+      <div class="relative inline-flex items-center justify-center mb-4">
+        <svg class="transform -rotate-90 w-28 h-28 sm:w-36 sm:h-36" viewBox="0 0 100 100">
+          <circle cx="50" cy="50" r="45" fill="none" stroke="var(--border-card)" stroke-width="6" />
+          <circle id="timer-ring" cx="50" cy="50" r="45" fill="none" stroke="var(--color-primary)" stroke-width="6" stroke-linecap="round"
+            stroke-dasharray="283" stroke-dashoffset="283" style="transition: stroke-dashoffset 0.1s linear;" />
+        </svg>
+        <div class="absolute inset-0 flex flex-col items-center justify-center">
+          <span id="timer-countdown" class="time-display text-2xl sm:text-4xl">00:00</span>
+          <span id="timer-wake" class="text-xs mt-1" style="color: var(--text-muted);"></span>
+        </div>
+      </div>
+      <div class="flex items-center justify-center gap-3">
+        <button id="nap-start-btn" class="btn-primary">Start</button>
+        <button id="nap-reset-btn" class="btn-secondary hidden">Reset</button>
+      </div>
+    </div>
+
+    <div id="nap-ready" class="hidden text-center py-8">
+      <div class="text-4xl sm:text-5xl mb-3">⏰</div>
+      <p class="text-lg font-serif mb-1" style="color: var(--text-card);">Time's up!</p>
+      <p class="text-sm mb-5" style="color: var(--text-card-muted);">Wake up now to avoid sleep inertia.</p>
+      <button id="nap-dismiss-btn" class="btn-primary">Got it</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const napOptions = document.querySelectorAll(".nap-option");
+  const napDisplay = document.getElementById("nap-timer-display");
+  const napReady = document.getElementById("nap-ready");
+  const timerCountdown = document.getElementById("timer-countdown");
+  const timerWake = document.getElementById("timer-wake");
+  const timerRing = document.getElementById("timer-ring");
+  const startBtn = document.getElementById("nap-start-btn");
+  const resetBtn = document.getElementById("nap-reset-btn");
+  const dismissBtn = document.getElementById("nap-dismiss-btn");
+
+  let countdownTimer = null;
+  let selectedMinutes = 20;
+  let isRunning = false;
+  let endTime = null;
+
+  const CIRCUMFERENCE = 283;
+
+  function getCSSVar(name) {
+    try { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); } catch(e) { return ""; }
+  }
+
+  napOptions.forEach((opt) => {
+    opt.addEventListener("click", () => {
+      if (isRunning) return;
+      napOptions.forEach((o) => {
+        o.style.background = "var(--bg-soft)";
+        o.style.borderColor = "var(--border-card)";
+      });
+      opt.style.background = "color-mix(in srgb, var(--color-primary) 10%, transparent)";
+      opt.style.borderColor = "color-mix(in srgb, var(--color-primary) 30%, transparent)";
+      selectedMinutes = parseInt(opt.dataset.duration);
+    });
+  });
+
+  startBtn.addEventListener("click", startTimer);
+  resetBtn.addEventListener("click", resetTimer);
+  dismissBtn.addEventListener("click", () => {
+    napReady.classList.add("hidden");
+    napDisplay.classList.add("hidden");
+    resetTimer();
+  });
+
+  function startTimer() {
+    if (isRunning) return;
+    isRunning = true;
+    endTime = new Date(Date.now() + selectedMinutes * 60000);
+
+    napDisplay.classList.remove("hidden");
+    napReady.classList.add("hidden");
+    startBtn.textContent = "Running...";
+    startBtn.disabled = true;
+    resetBtn.classList.remove("hidden");
+    timerWake.textContent = `Wake up at ${formatTime(endTime)}`;
+
+    updateTimer();
+    countdownTimer = setInterval(updateTimer, 100);
+  }
+
+  function updateTimer() {
+    const now = Date.now();
+    const diff = endTime.getTime() - now;
+    if (diff <= 0) {
+      clearInterval(countdownTimer);
+      isRunning = false;
+      napReady.classList.remove("hidden");
+      napDisplay.classList.add("hidden");
+      return;
+    }
+
+    const totalSec = Math.floor(diff / 1000);
+    const mins = Math.floor(totalSec / 60);
+    const secs = totalSec % 60;
+    timerCountdown.textContent = `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
+
+    const progress = 1 - (totalSec / (selectedMinutes * 60));
+    timerRing.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
+  }
+
+  function resetTimer() {
+    clearInterval(countdownTimer);
+    isRunning = false;
+    endTime = null;
+    startBtn.textContent = "Start";
+    startBtn.disabled = false;
+    resetBtn.classList.add("hidden");
+    timerCountdown.textContent = "00:00";
+    timerRing.style.strokeDashoffset = CIRCUMFERENCE;
+    napDisplay.classList.add("hidden");
+    napReady.classList.add("hidden");
+
+    napOptions.forEach((o) => {
+      o.style.background = "var(--bg-soft)";
+      o.style.borderColor = "var(--border-card)";
+    });
+  }
+
+  function formatTime(date) {
+    let h = date.getHours();
+    const m = date.getMinutes().toString().padStart(2, "0");
+    const ap = h >= 12 ? "PM" : "AM";
+    h = h % 12 || 12;
+    return `${h}:${m} ${ap}`;
+  }
+</script>

@@ -1,0 +1,61 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Terms & Conditions — Zzzcalc"
+  description="Terms and conditions for using Zzzcalc sleep cycle calculator. The tool is provided for informational purposes and is not medical advice."
+  canonical="https://zzzcalc.com/terms"
+>
+  <Nav />
+
+  <section class="pt-28 pb-16 sm:pt-40 sm:pb-24">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-2" style="color: var(--text-page);">Terms &amp; Conditions</h1>
+        <p class="text-xs mb-8" style="color: var(--text-muted);">Last updated: June 2026</p>
+
+        <div class="space-y-6 text-sm leading-relaxed" style="color: var(--text-card-muted);">
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">1. Acceptance of Terms</h2>
+            <p>By using Zzzcalc, you agree to these terms and conditions. If you do not agree, please do not use the tool. Zzzcalc is provided free of charge and is intended for informational and scheduling purposes only.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">2. Not Medical Advice</h2>
+            <p>Zzzcalc is a scheduling aid based on average sleep cycle timing. It is not a medical device, does not diagnose any condition, and should not be used as a substitute for professional medical advice, diagnosis, or treatment. If you have concerns about your sleep health, insomnia, excessive daytime sleepiness, or any other medical condition, please consult a qualified healthcare provider.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">3. No Guarantees</h2>
+            <p>The 90-minute sleep cycle is a population average. Individual cycle length varies from 70 to 110 minutes depending on age, genetics, sleep debt, and health. While Zzzcalc provides mathematically consistent recommendations, we cannot guarantee that waking at a suggested time will eliminate sleep inertia or improve alertness for every individual.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">4. Limitation of Liability</h2>
+            <p>Zzzcalc is provided "as is" without any warranty, express or implied. The creators of Zzzcalc shall not be liable for any damages arising from the use or inability to use this tool, including but not limited to missed alarms,迟到, or any sleep-related issues.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">5. Intellectual Property</h2>
+            <p>The Zzzcalc name, design, and code are the property of the project maintainers. You may not reproduce, distribute, or create derivative works without permission. The underlying sleep cycle math and 90-minute cycle model are part of established scientific knowledge and are not proprietary.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">6. Changes to Terms</h2>
+            <p>We reserve the right to update these terms at any time. Continued use of the tool after changes constitutes acceptance of the new terms. The last updated date at the top of this page reflects the most recent revision.</p>
+          </section>
+
+          <section>
+            <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">7. Contact</h2>
+            <p>For questions about these terms, please visit our <a href="/contact" style="color: var(--color-primary);">contact page</a>.</p>
+          </section>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

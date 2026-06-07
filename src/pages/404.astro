@@ -1,0 +1,22 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout title="404 — Page Not Found | Zzzcalc" description="The page you are looking for does not exist." canonical="https://zzzcalc.com/404">
+  <Nav />
+
+  <section class="pt-28 pb-24 sm:pt-40 sm:pb-32">
+    <div class="container-main">
+      <div class="max-w-xl mx-auto text-center">
+        <span class="text-6xl sm:text-7xl font-serif tracking-tight" style="color: var(--color-primary);">404</span>
+        <h1 class="font-serif text-xl sm:text-2xl tracking-tight mt-4 mb-3" style="color: var(--text-page);">Page not found</h1>
+        <p class="text-sm mb-6" style="color: var(--text-muted);">The page you are looking for does not exist or has been moved.</p>
+        <a href="/" class="btn-primary">Back to Calculator</a>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#181715"/>
+  <text x="600" y="240" text-anchor="middle" font-family="'Cormorant Garamond', Georgia, serif" font-size="72" fill="#faf9f5" font-weight="400">Sleep Cycle Calculator</text>
+  <text x="600" y="310" text-anchor="middle" font-family="Inter, sans-serif" font-size="28" fill="#a09d96" font-weight="400">Wake up refreshed. Every time.</text>
+  <rect x="500" y="360" width="200" height="50" rx="8" fill="#cc785c"/>
+  <text x="600" y="393" text-anchor="middle" font-family="Inter, sans-serif" font-size="18" fill="#ffffff" font-weight="500">zzzcalc.com</text>
+  <circle cx="180" cy="120" r="8" fill="#cc785c" opacity="0.6"/>
+  <circle cx="220" cy="100" r="5" fill="#cc785c" opacity="0.3"/>
+  <circle cx="160" cy="90" r="4" fill="#faf9f5" opacity="0.4"/>
+  <circle cx="1020" cy="510" r="8" fill="#cc785c" opacity="0.6"/>
+  <circle cx="1060" cy="530" r="5" fill="#cc785c" opacity="0.3"/>
+  <circle cx="1000" cy="540" r="4" fill="#faf9f5" opacity="0.4"/>
+</svg>

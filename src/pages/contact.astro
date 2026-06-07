@@ -1,0 +1,70 @@
+---
+import Layout from "../layouts/Layout.astro";
+import Nav from "../components/Nav.astro";
+import Footer from "../components/Footer.astro";
+---
+
+<Layout
+  title="Contact — Zzzcalc"
+  description="Contact the team behind Zzzcalc sleep cycle calculator. Report issues or send feedback."
+  canonical="https://zzzcalc.com/contact"
+>
+  <Nav />
+
+  <section class="pt-28 pb-16 sm:pt-40 sm:pb-24">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="font-serif text-2xl sm:text-3xl lg:text-4xl tracking-tight mb-6" style="color: var(--text-page);">Contact</h1>
+
+        <div class="space-y-5 text-sm leading-relaxed" style="color: var(--text-card-muted);">
+          <p>
+            Zzzcalc is a small, independent project. If you have feedback, a bug report, or a feature request, the best way to reach us is through GitHub.
+          </p>
+
+          <div class="card-primary p-5 sm:p-6 mt-6">
+            <h2 class="text-sm font-medium mb-3" style="color: var(--text-card);">Get in touch</h2>
+            <ul class="space-y-3">
+              <li>
+                <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--text-muted);">GitHub</span>
+                <p class="mt-1">
+                  <a href="https://github.com/anomalyco/opencode/issues" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">github.com/anomalyco/opencode/issues</a>
+                </p>
+              </li>
+              <li>
+                <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--text-muted);">Email</span>
+                <p class="mt-1" style="color: var(--text-card-muted);">
+                  <a href="mailto:hello@zzzcalc.com" style="color: var(--color-primary);">hello@zzzcalc.com</a>
+                </p>
+              </li>
+              <li>
+                <span class="text-xs font-semibold uppercase tracking-widest" style="color: var(--text-muted);">Response time</span>
+                <p class="mt-1" style="color: var(--text-card-muted);">We try to respond within 48 hours.</p>
+              </li>
+            </ul>
+          </div>
+
+          <div class="card-primary p-5 sm:p-6 mt-6">
+            <h2 class="text-sm font-medium mb-3" style="color: var(--text-card);">Report a bug</h2>
+            <p class="mb-3">
+              Found something broken? Open an issue on GitHub and include:
+            </p>
+            <ul class="space-y-1.5 list-disc pl-5">
+              <li>What you were doing when the issue occurred</li>
+              <li>Your browser and operating system</li>
+              <li>A screenshot if relevant</li>
+            </ul>
+          </div>
+
+          <div class="card-primary p-5 sm:p-6 mt-6">
+            <h2 class="text-sm font-medium mb-3" style="color: var(--text-card);">Feature requests</h2>
+            <p>
+              Zzzcalc is intentionally minimal, but we are open to well-considered additions. If you have an idea that fits the tool's focus — local-first, private, sleep-cycle-science-based — we would love to hear about it.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
