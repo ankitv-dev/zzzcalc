@@ -21,7 +21,8 @@ import Footer from "../components/Footer.astro";
         <div class="space-y-6 text-sm leading-relaxed" style="color: var(--text-card-muted);">
           <section>
             <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">1. What We Collect</h2>
-            <p><strong style="color: var(--text-card);">We collect minimal, anonymized usage data through Google Analytics 4.</strong> This includes page views, session duration, approximate geographic region (country/city level), browser type, device type, and referring website. This information is aggregated and cannot be used to identify you personally. We use this data solely to understand how many people use the site and which features are most helpful.</p>
+            <p><strong style="color: var(--text-card);">We collect minimal usage data through Google Analytics 4.</strong> This includes page views, session duration, approximate geographic region (country/city level), browser type, device type, and referring website. This information is aggregated and cannot be used to identify you personally. We use this data solely to understand how many people use the site and which features are most helpful.</p>
+            <p class="mt-2"><strong style="color: var(--text-card);">You control data collection.</strong> Upon your first visit, a consent banner asks whether you'd like to allow standard analytics (which may include your full IP address) or request anonymized tracking only. Your choice is saved locally. Google Analytics will not load until you make a selection.</p>
             <p class="mt-2">ZzzCalc does <em>not</em> collect your name, email address, or any sleep-related data you enter into the calculator.</p>
           </section>
 
@@ -32,14 +33,15 @@ import Footer from "../components/Footer.astro";
 
           <section>
             <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">3. Cookies</h2>
-            <p>ZzzCalc does not set its own cookies. However, <strong style="color: var(--text-card);">Google Analytics</strong> sets first-party cookies to distinguish unique users and throttle request rates. These cookies are anonymized and do not contain personally identifiable information. You can opt out of Google Analytics by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Google Analytics opt-out browser add-on</a>.</p>
+            <p>ZzzCalc does not set its own cookies. However, <strong style="color: var(--text-card);">Google Analytics</strong> sets first-party cookies to distinguish unique users and throttle request rates. These cookies do not contain personally identifiable information.</p>
+            <p class="mt-2">Google Analytics only loads after you interact with the consent banner. You may also opt out at any time by installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Google Analytics opt-out browser add-on</a>.</p>
           </section>
 
           <section>
             <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">4. Third-Party Services</h2>
             <p>ZzzCalc uses the following third-party services:</p>
             <ul class="list-disc pl-5 mt-2 space-y-1">
-              <li><strong style="color: var(--text-card);">Google Analytics</strong> — aggregated, anonymized usage statistics. Data is processed in accordance with <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Google's Privacy Policy</a>. IP addresses are anonymized before storage.</li>
+              <li><strong style="color: var(--text-card);">Google Analytics</strong> — aggregated usage statistics. By default, IP addresses are anonymized. If you select "Allow (includes IP)" on the consent banner, your full IP may be collected. Data is processed in accordance with <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Google's Privacy Policy</a>.</li>
               <li><strong style="color: var(--text-card);">Google Fonts</strong> — font files are loaded from Google's servers, which may log your IP address. See <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Google's Privacy Policy</a> for details.</li>
               <li><strong style="color: var(--text-card);">Vercel</strong> — the site is hosted on Vercel's platform. Vercel may collect standard server logs (request paths, timestamps, IP addresses) as part of their hosting infrastructure. See <a href="https://vercel.com/legal/privacy" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Vercel's Privacy Policy</a>.</li>
             </ul>
@@ -48,8 +50,9 @@ import Footer from "../components/Footer.astro";
 
           <section>
             <h2 class="font-serif text-lg sm:text-xl tracking-tight mb-3" style="color: var(--text-card);">5. Your Choices</h2>
-            <p>You can opt out of Google Analytics at any time by:</p>
+            <p>Upon first visit, a consent banner asks your preference. You can also opt out of Google Analytics at any time by:</p>
             <ul class="list-disc pl-5 mt-2 space-y-1">
+              <li>Clearing your site data (resets the consent banner)</li>
               <li>Installing the <a href="https://tools.google.com/dlpage/gaoptout" target="_blank" rel="noopener noreferrer" style="color: var(--color-primary);">Google Analytics opt-out browser add-on</a></li>
               <li>Enabling <strong style="color: var(--text-card);">Do Not Track</strong> in your browser settings</li>
               <li>Using a privacy-focused browser (Brave, Firefox with Enhanced Tracking Protection, etc.)</li>

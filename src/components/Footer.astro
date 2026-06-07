@@ -5,6 +5,7 @@ const bottomLinks = [
   { href: "/terms", label: "Terms" },
   { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
+  { href: "#", label: "Cookies", id: "cookie-settings" },
 ];
 ---
 
@@ -53,12 +54,20 @@ const bottomLinks = [
       <p class="text-xs" style="color: var(--text-muted);">&copy; {copyright} ZzzCalc. Wake up refreshed.</p>
       <div class="flex items-center gap-3 text-xs" style="color: var(--text-muted);">
         {bottomLinks.map((l) => (
-          <a href={l.href} class="footer-link">{l.label}</a>
+          <a href={l.href} class="footer-link" id={l.id}>{l.label}</a>
         ))}
       </div>
     </div>
   </div>
 </footer>
+
+<script>
+  document.getElementById("cookie-settings")?.addEventListener("click", (e) => {
+    e.preventDefault();
+    localStorage.removeItem("zzzcalc-consent");
+    location.reload();
+  });
+</script>
 
 <style is:global>
   .footer-link { transition: color 0.15s ease; }

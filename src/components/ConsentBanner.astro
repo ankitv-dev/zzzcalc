@@ -1,0 +1,45 @@
+---
+const GA_ID = "G-X5G8VC37DL";
+---
+
+<div id="consent-banner" class="fixed bottom-4 right-4 z-[100] max-w-sm w-[calc(100%-2rem)] hidden"
+  style="background: var(--color-surface-dark); color: var(--color-on-dark); border-radius: var(--radius-lg); padding: 1.5rem; box-shadow: 0 4px 24px rgba(0,0,0,0.3);">
+  <p class="text-sm leading-relaxed mb-3" style="color: var(--color-on-dark);">
+    This site uses Google Analytics for anonymized usage stats.
+  </p>
+  <p class="text-xs mb-4" style="color: var(--color-on-dark-soft);">
+    You can choose below. Your preference is saved locally.
+  </p>
+  <div class="flex flex-col gap-2">
+    <button id="consent-allow" class="btn-primary w-full justify-center text-xs" style="height: 2.25rem; padding: 0.5rem 1rem;">
+      Allow (includes IP)
+    </button>
+    <button id="consent-deny" class="w-full justify-center text-xs" style="height: 2.25rem; padding: 0.5rem 1rem; background: var(--color-surface-dark-elevated); color: var(--color-on-dark); font-family: var(--font-sans); font-size: 0.75rem; font-weight: 500; line-height: 1; border-radius: var(--radius-md); display: inline-flex; align-items: center; gap: 0.5rem; cursor: pointer; border: 1px solid rgba(255,255,255,0.08); transition: background 0.15s;">
+      Use anonymized only
+    </button>
+  </div>
+  <button id="consent-dismiss" class="absolute top-2 right-2 p-1 rounded-md" style="color: var(--color-on-dark-soft); cursor: pointer; background: none; border: none;" aria-label="Dismiss">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
+</div>
+
+<script>
+  const GA_ID = "G-X5G8VC37DL";
+  const banner = document.getElementById("consent-banner");
+
+  if (!localStorage.getItem("zzzcalc-consent")) {
+    banner.classList.remove("hidden");
+  }
+
+  function setConsent(value) {
+    localStorage.setItem("zzzcalc-consent", value);
+    banner.classList.add("hidden");
+    window.__loadGA(value === "granted" ? false : true);
+  }
+
+  document.getElementById("consent-allow").addEventListener("click", () => setConsent("granted"));
+  document.getElementById("consent-deny").addEventListener("click", () => setConsent("denied"));
+  document.getElementById("consent-dismiss").addEventListener("click", () => banner.classList.add("hidden"));
+</script>

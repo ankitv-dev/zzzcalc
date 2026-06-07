@@ -1,5 +1,6 @@
 ---
 import "../styles/global.css";
+import ConsentBanner from "../components/ConsentBanner.astro";
 
 export interface Props {
   title?: string;
@@ -20,6 +21,7 @@ const {
   structuredData = [],
 } = Astro.props;
 
+const shouldAutoLoad = !noTrack;
 const ldJson = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebApplication",
@@ -104,20 +106,31 @@ const ldJson = JSON.stringify({
       [id] { scroll-margin-top: 4rem; }
     </style>
 
-    {!noTrack && (
-      <>
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-X5G8VC37DL"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', 'G-X5G8VC37DL', { anonymize_ip: true });
-        </script>
-      </>
+    <script is:inline>
+      window.__loadGA = function(anonymize) {
+        var s = document.createElement("script");
+        s.async = true;
+        s.src = "https://www.googletagmanager.com/gtag/js?id=G-X5G8VC37DL";
+        document.head.appendChild(s);
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag("js", new Date());
+        gtag("config", "G-X5G8VC37DL", anonymize ? { anonymize_ip: true } : {});
+      };
+    </script>
+    {shouldAutoLoad && (
+      <script is:inline>
+        try {
+          var c = localStorage.getItem("zzzcalc-consent");
+          if (c === "granted") window.__loadGA(false);
+          else if (c === "denied") window.__loadGA(true);
+        } catch(e) {}
+      </script>
     )}
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <slot />
+    {!noTrack && <ConsentBanner />}
   </body>
 </html>
