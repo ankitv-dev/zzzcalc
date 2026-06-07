@@ -4,10 +4,15 @@ export const MIN_CYCLES = 3;
 export const MAX_CYCLES = 6;
 
 export const CYCLE_QUALITY = [
-  { cycles: 6, label: "Great", score: 4, color: "#8fc97b" },
-  { cycles: 5, label: "Best", score: 5, color: "#5db872" },
-  { cycles: 4, label: "Okay", score: 3, color: "#ccb56e" },
   { cycles: 3, label: "Groggy", score: 2, color: "#cc785c" },
+  { cycles: 4, label: "Okay", score: 3, color: "#ccb56e" },
+  { cycles: 5, label: "Best", score: 5, color: "#5db872" },
+  { cycles: 6, label: "Great", score: 4, color: "#8fc97b" },
+  { cycles: 7, label: "Great", score: 4, color: "#8fc97b" },
+  { cycles: 8, label: "Great", score: 4, color: "#8fc97b" },
+  { cycles: 9, label: "Great", score: 4, color: "#8fc97b" },
+  { cycles: 10, label: "Great", score: 4, color: "#8fc97b" },
+  { cycles: 11, label: "Great", score: 4, color: "#8fc97b" },
 ];
 
 const qualityMap = Object.fromEntries(CYCLE_QUALITY.map((q) => [q.cycles, q]));
@@ -22,6 +27,14 @@ export const QUICK_REF = [
   { cycles: 4, duration: "6h 00m", label: "Minimum", color: "#ccb56e" },
   { cycles: 3, duration: "4h 30m", label: "Emergency", color: "#cc785c" },
 ];
+
+export function formatDuration(minutes) {
+  const h = Math.floor(minutes / 60);
+  const m = Math.round(minutes % 60);
+  if (h === 0) return `${m}m`;
+  if (m === 0) return `${h}h`;
+  return `${h}h ${m}m`;
+}
 
 export const AGE_GROUPS = [
   { id: "infant", label: "0–3 months", range: [14, 17], cycles: [8, 11], cycleLen: 50 },

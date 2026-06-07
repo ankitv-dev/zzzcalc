@@ -57,7 +57,7 @@ import Footer from "./Footer.astro";
         <div class="flex items-center gap-2">
           <label for="cycle-length-slider">Cycle:</label>
           <span id="cycle-length-value" class="font-medium" style="color: var(--color-primary);">90 min</span>
-          <input id="cycle-length-slider" type="range" min="70" max="110" step="1" value="90"
+          <input id="cycle-length-slider" type="range" min="40" max="120" step="1" value="90"
             class="w-16 h-1 rounded-full appearance-none cursor-pointer"
             style="background: var(--bg-soft); accent-color: var(--color-primary);" />
         </div>
@@ -116,7 +116,7 @@ import Footer from "./Footer.astro";
 </div>
 
 <script>
-  import { CYCLE_LENGTH, DEFAULT_LATENCY, getQuality, AGE_GROUPS, cycleRangeForAge, cycleLenForAge, chronotypeFromScore } from "../lib/cycles.js";
+  import { CYCLE_LENGTH, DEFAULT_LATENCY, getQuality, AGE_GROUPS, cycleRangeForAge, cycleLenForAge, chronotypeFromScore, formatDuration } from "../lib/cycles.js";
   import { formatTime, formatHourMin, formatAmPm } from "../lib/format.js";
 
   const timeInput = document.getElementById("time-input");
@@ -312,7 +312,7 @@ import Footer from "./Footer.astro";
     for (let cycles = minC; cycles <= maxC; cycles++) {
       const totalMinutes = cycles * cycleLen;
       const bedtime = new Date(wakeTime.getTime() - (totalMinutes + latency) * 60000 - shift * 60000);
-      results.push({ cycles, time: bedtime, duration: totalMinutes / 60, quality: getQuality(cycles) });
+      results.push({ cycles, time: bedtime, totalMinutes, quality: getQuality(cycles) });
     }
     activeResults = results;
     renderResults(results, "Go to bed at");
@@ -325,7 +325,7 @@ import Footer from "./Footer.astro";
     for (let cycles = minC; cycles <= maxC; cycles++) {
       const totalMinutes = cycles * cycleLen;
       const wakeTime = new Date(bedTime.getTime() + (latency + totalMinutes) * 60000 + shift * 60000);
-      results.push({ cycles, time: wakeTime, duration: totalMinutes / 60, quality: getQuality(cycles) });
+      results.push({ cycles, time: wakeTime, totalMinutes, quality: getQuality(cycles) });
     }
     activeResults = results;
     renderResults(results, "Wake up at");
@@ -343,7 +343,7 @@ import Footer from "./Footer.astro";
     const results = [{
       cycles: bestCycles,
       time: wakeTime,
-      duration: targetHours,
+      totalMinutes: targetMinutes,
       quality: getQuality(bestCycles),
       bedtime: bedTime,
     }];
@@ -365,7 +365,7 @@ import Footer from "./Footer.astro";
         <div class="flex items-center gap-2 text-xs" style="color: var(--text-muted);">
           <span>${r.cycles} cycles</span>
           <span>·</span>
-          <span>${r.duration}h sleep</span>
+          <span>${formatDuration(r.totalMinutes)}</span>
         </div>
       </div>
       <div class="flex items-center gap-1.5 shrink-0">
@@ -426,7 +426,7 @@ import Footer from "./Footer.astro";
           <div class="flex items-center gap-2 text-xs" style="color: var(--text-muted);">
             <span>${r.cycles} cycles</span>
             <span>·</span>
-            <span>${r.duration}h sleep</span>
+            <span>${formatDuration(r.totalMinutes)}</span>
             <span>·</span>
             <span style="color: ${highlight}; font-weight: 600;">${r.quality.label}</span>
           </div>
