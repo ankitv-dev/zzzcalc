@@ -15,6 +15,26 @@ const {
   canonical = siteUrl,
   ogImage = `${siteUrl}/og-image.png`,
 } = Astro.props;
+
+const ldJson = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "ZzzCalc Sleep Cycle Calculator",
+  "url": siteUrl,
+  "description": description,
+  "applicationCategory": "HealthApplication",
+  "operatingSystem": "All",
+  "browserRequirements": "Requires JavaScript",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "USD"
+  },
+  "author": {
+    "@type": "Organization",
+    "name": "ZzzCalc"
+  }
+});
 ---
 
 <!DOCTYPE html>
@@ -50,27 +70,7 @@ const {
     <meta name="twitter:image" content={ogImage} />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "WebApplication",
-        "name": "ZzzCalc Sleep Cycle Calculator",
-        "url": siteUrl,
-        "description": description,
-        "applicationCategory": "HealthApplication",
-        "operatingSystem": "All",
-        "browserRequirements": "Requires JavaScript",
-        "offers": {
-          "@type": "Offer",
-          "price": "0",
-          "priceCurrency": "USD"
-        },
-        "author": {
-          "@type": "Organization",
-          "name": "ZzzCalc"
-        }
-      })}
-    </script>
+    <script type="application/ld+json" set:html={ldJson}></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
