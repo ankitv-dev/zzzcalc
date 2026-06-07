@@ -10,10 +10,10 @@ export interface Props {
 
 const siteUrl = "https://zzzcalc.com";
 const {
-  title = "Zzzcalc - Wake Up Refreshed",
+  title = "ZzzCalc - Wake Up Refreshed",
   description = "A sleep cycle calculator based on 90-minute REM cycles. Find your ideal bedtime or wake-up time. REM sleep cycle calculator with age adjustments for teens, adults, and seniors.",
   canonical = siteUrl,
-  ogImage = `${siteUrl}/og-image.svg`,
+  ogImage = `${siteUrl}/og-image.png`,
 } = Astro.props;
 ---
 
@@ -27,7 +27,12 @@ const {
     <meta name="theme-color" content="#181715" />
 
     <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="shortcut icon" href="/favicon.ico" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="ZzzCalc" />
+    <link rel="manifest" href="/site.webmanifest" />
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
@@ -35,7 +40,7 @@ const {
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:image" content={ogImage} />
-    <meta property="og:site_name" content="Zzzcalc" />
+    <meta property="og:site_name" content="ZzzCalc" />
     <meta property="og:locale" content="en_US" />
 
     <!-- Twitter Card -->
@@ -49,7 +54,7 @@ const {
       {JSON.stringify({
         "@context": "https://schema.org",
         "@type": "WebApplication",
-        "name": "Zzzcalc Sleep Cycle Calculator",
+        "name": "ZzzCalc Sleep Cycle Calculator",
         "url": siteUrl,
         "description": description,
         "applicationCategory": "HealthApplication",
@@ -62,7 +67,7 @@ const {
         },
         "author": {
           "@type": "Organization",
-          "name": "Zzzcalc"
+          "name": "ZzzCalc"
         }
       })}
     </script>
