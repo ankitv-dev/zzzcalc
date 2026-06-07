@@ -65,7 +65,7 @@ import Footer from "./Footer.astro";
           <label for="age-select">Age:</label>
           <select id="age-select" class="rounded-md px-2 py-1 text-xs"
             style="background: var(--bg-soft); color: var(--text-card); border: 1px solid var(--border-card); font-family: var(--font-sans);">
-            {AGE_GROUPS.map((g) => <option value={g.id}>{g.label}</option>)}
+            {AGE_GROUPS.map((g) => <option value={g.id} selected={g.id === "adult"}>{g.label}</option>)}
           </select>
         </div>
         <span id="chronotype-badge" class="inline-flex items-center gap-1 px-2 py-0.5 rounded-full hidden"
