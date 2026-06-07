@@ -2,6 +2,8 @@
 
 A local-first sleep cycle calculator based on 90-minute REM cycles. Built with Astro + Tailwind CSS v4.
 
+**→ [zzzcalc.vercel.app](https://zzzcalc.vercel.app)**
+
 ## Features
 
 - **Dual-mode calculator** — "I want to wake up at" (finds bedtimes) or "I'm going to bed now" (finds wake times)
