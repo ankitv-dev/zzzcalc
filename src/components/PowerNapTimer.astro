@@ -40,10 +40,12 @@ const napTypes = [
         <div class="absolute inset-0 flex flex-col items-center justify-center">
           <span id="timer-countdown" class="time-display text-2xl sm:text-4xl">00:00</span>
           <span id="timer-wake" class="text-xs mt-1" style="color: var(--text-muted);"></span>
+          <span id="timer-status" class="text-[10px] mt-0.5 hidden" style="color: var(--color-primary);"></span>
         </div>
       </div>
       <div class="flex items-center justify-center gap-3">
         <button id="nap-start-btn" class="btn-primary">Start</button>
+        <button id="nap-pause-btn" class="btn-secondary hidden">Pause</button>
         <button id="nap-reset-btn" class="btn-secondary hidden">Reset</button>
       </div>
     </div>
@@ -65,17 +67,39 @@ const napTypes = [
   const napReady = document.getElementById("nap-ready");
   const timerCountdown = document.getElementById("timer-countdown");
   const timerWake = document.getElementById("timer-wake");
+  const timerStatus = document.getElementById("timer-status");
   const timerRing = document.getElementById("timer-ring");
   const startBtn = document.getElementById("nap-start-btn");
+  const pauseBtn = document.getElementById("nap-pause-btn");
   const resetBtn = document.getElementById("nap-reset-btn");
   const dismissBtn = document.getElementById("nap-dismiss-btn");
 
   let countdownTimer = null;
   let selectedMinutes = 20;
   let isRunning = false;
+  let isPaused = false;
   let endTime = null;
+  let remainingMs = 0;
+  let audioCtx = null;
 
   const CIRCUMFERENCE = 283;
+
+  function selectDefault() {
+    const defaultOpt = document.querySelector('.nap-option[data-duration="20"]');
+    if (defaultOpt) {
+      napOptions.forEach((o) => {
+        o.className = o.className.replace(" nap-option-selected", "") + " nap-option-default";
+        o.style.background = "";
+        o.style.borderColor = "";
+      });
+      defaultOpt.className = defaultOpt.className.replace(" nap-option-default", "") + " nap-option-selected";
+      defaultOpt.style.background = "";
+      defaultOpt.style.borderColor = "";
+      selectedMinutes = parseInt(defaultOpt.dataset.duration, 10);
+    }
+  }
+
+  selectDefault();
 
   napOptions.forEach((opt) => {
     opt.addEventListener("click", () => {
@@ -93,58 +117,148 @@ const napTypes = [
   });
 
   startBtn.addEventListener("click", startTimer);
+  pauseBtn.addEventListener("click", togglePause);
   resetBtn.addEventListener("click", resetTimer);
   dismissBtn.addEventListener("click", () => {
     napReady.classList.add("hidden");
     napDisplay.classList.add("hidden");
+    stopAlarm();
     resetTimer();
   });
+
+  function playAlarm() {
+    try {
+      if (!audioCtx) audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      const now = audioCtx.currentTime;
+      for (let i = 0; i < 3; i++) {
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+        osc.type = "sine";
+        osc.frequency.setValueAtTime(880, now + i * 0.5);
+        gain.gain.setValueAtTime(0.3, now + i * 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.01, now + i * 0.5 + 0.4);
+        osc.start(now + i * 0.5);
+        osc.stop(now + i * 0.5 + 0.4);
+      }
+    } catch (e) {}
+  }
+
+  function stopAlarm() {
+    try {
+      if (audioCtx) {
+        audioCtx.close();
+        audioCtx = null;
+      }
+    } catch (e) {}
+  }
+
+  function sendNotification() {
+    try {
+      if ("Notification" in window && Notification.permission === "granted") {
+        new Notification("ZzzCalc - Time's up!", {
+          body: `Your ${selectedMinutes}-minute nap is complete. Wake up refreshed!`,
+          icon: "/apple-touch-icon.png",
+        });
+      }
+    } catch (e) {}
+  }
+
+  function requestNotificationPermission() {
+    try {
+      if ("Notification" in window && Notification.permission === "default") {
+        Notification.requestPermission();
+      }
+    } catch (e) {}
+  }
 
   function startTimer() {
     if (isRunning) return;
     isRunning = true;
-    endTime = new Date(Date.now() + selectedMinutes * 60000);
+    isPaused = false;
+    remainingMs = selectedMinutes * 60000;
+    endTime = new Date(Date.now() + remainingMs);
+
+    requestNotificationPermission();
 
     napDisplay.classList.remove("hidden");
     napReady.classList.add("hidden");
-    startBtn.textContent = "Running...";
-    startBtn.disabled = true;
+    startBtn.classList.add("hidden");
+    pauseBtn.classList.remove("hidden");
+    pauseBtn.textContent = "Pause";
     resetBtn.classList.remove("hidden");
     timerWake.textContent = `Wake up at ${formatTime(endTime)}`;
+    timerStatus.classList.remove("hidden");
+    timerStatus.textContent = "Running";
 
     updateTimer();
-    countdownTimer = setInterval(updateTimer, 1000);
+    countdownTimer = setInterval(updateTimer, 200);
+  }
+
+  function togglePause() {
+    if (!isRunning) return;
+    if (isPaused) {
+      isPaused = false;
+      endTime = new Date(Date.now() + remainingMs);
+      timerWake.textContent = `Wake up at ${formatTime(endTime)}`;
+      timerStatus.textContent = "Running";
+      pauseBtn.textContent = "Pause";
+      countdownTimer = setInterval(updateTimer, 200);
+    } else {
+      isPaused = true;
+      clearInterval(countdownTimer);
+      countdownTimer = null;
+      timerStatus.textContent = "Paused";
+      pauseBtn.textContent = "Resume";
+    }
   }
 
   function updateTimer() {
-    if (!endTime) return;
+    if (isPaused || !endTime) return;
     const now = Date.now();
     const diff = endTime.getTime() - now;
+
     if (diff <= 0) {
       clearInterval(countdownTimer);
+      countdownTimer = null;
       isRunning = false;
+      isPaused = false;
+      remainingMs = 0;
       napReady.classList.remove("hidden");
       napDisplay.classList.add("hidden");
+      playAlarm();
+      sendNotification();
       return;
     }
+
+    remainingMs = diff;
 
     const totalSec = Math.floor(diff / 1000);
     const mins = Math.floor(totalSec / 60);
     const secs = totalSec % 60;
     timerCountdown.textContent = `${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
 
-    const elapsed = selectedMinutes * 60 - totalSec;
-    const progress = elapsed / (selectedMinutes * 60);
+    const elapsed = selectedMinutes * 60000 - diff;
+    const progress = elapsed / (selectedMinutes * 60000);
     timerRing.style.strokeDashoffset = CIRCUMFERENCE * (1 - progress);
   }
 
   function resetTimer() {
     clearInterval(countdownTimer);
+    countdownTimer = null;
     isRunning = false;
+    isPaused = false;
     endTime = null;
+    remainingMs = 0;
+    stopAlarm();
+
     startBtn.textContent = "Start";
     startBtn.disabled = false;
+    startBtn.classList.remove("hidden");
+    pauseBtn.classList.add("hidden");
     resetBtn.classList.add("hidden");
+    timerStatus.classList.add("hidden");
     timerCountdown.textContent = "00:00";
     timerRing.style.strokeDashoffset = CIRCUMFERENCE;
     napDisplay.classList.add("hidden");
@@ -155,5 +269,23 @@ const napTypes = [
       o.style.background = "";
       o.style.borderColor = "";
     });
+    selectDefault();
   }
+
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible" && isRunning && !isPaused && endTime) {
+      const now = Date.now();
+      const diff = endTime.getTime() - now;
+      if (diff <= 0) {
+        clearInterval(countdownTimer);
+        countdownTimer = null;
+        isRunning = false;
+        remainingMs = 0;
+        napReady.classList.remove("hidden");
+        napDisplay.classList.add("hidden");
+        playAlarm();
+        sendNotification();
+      }
+    }
+  });
 </script>

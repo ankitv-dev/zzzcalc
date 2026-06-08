@@ -1,5 +1,12 @@
 ---
-import { faqs } from "../lib/faq-data.js";
+import { faqs as defaultFaqs } from "../lib/faq-data.js";
+
+export interface Props {
+  faqs?: Array<{ id: string; question: string; answer: string }>;
+  subtitle?: string;
+}
+
+const { faqs = defaultFaqs, subtitle = "About sleep cycles, timing, and how the calculator works." } = Astro.props;
 ---
 
 <section class="py-12 sm:py-20">
@@ -9,7 +16,7 @@ import { faqs } from "../lib/faq-data.js";
         Frequently Asked Questions
       </h2>
       <p class="text-sm text-center mb-8 sm:mb-10" style="color: var(--text-muted);">
-        About sleep cycles, timing, and how the calculator works.
+        {subtitle}
       </p>
 
       <div class="space-y-3">

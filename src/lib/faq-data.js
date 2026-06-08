@@ -71,6 +71,52 @@ export const faqs = [
   },
 ];
 
+export const napFaqs = [
+  {
+    id: "power-nap-length",
+    question: "How long should an effective power nap be?",
+    answer: "To avoid sleep inertia during the day, you should aim for one of two distinct windows: The 20-Minute Power Nap keeps you strictly within light N2 sleep to boost alertness, motor memory, and energy without any grogginess. The 90-Minute Full Nap allows your body to complete one full uninterrupted cycle, providing deep muscle recovery and creative problem-solving benefits. Avoid 45-to-60-minute naps, as they trap you in slow-wave deep sleep.",
+  },
+  {
+    id: "coffee-nap-science",
+    question: "Does a coffee nap really work?",
+    answer: "Yes, coffee naps are backed by sleep research. Drinking caffeine (roughly 200mg, or one cup of coffee) immediately before a 15-20 minute nap takes advantage of adenosine receptor blocking. Caffeine takes about 20 minutes to reach peak levels in your bloodstream. By napping during that window, you wake up as the caffeine kicks in, giving you a double boost: the restorative effect of light N2 sleep plus the stimulant effect of caffeine arriving precisely as you open your eyes. Studies show coffee naps improve alertness more than caffeine or napping alone.",
+  },
+  {
+    id: "nasa-power-nap",
+    question: "What is the NASA power nap protocol?",
+    answer: "NASA's power nap research, conducted on sleep-deprived military pilots and astronauts, found that a 26-minute nap improved performance by 34% and alertness by 54% compared to no nap. The NASA protocol recommends napping for 25-30 minutes at most (short enough to avoid deep N3 sleep), in a quiet, dark, cool environment, with an alarm set before you fall asleep. NASA's findings are the scientific basis for the modern 20-minute power nap recommendation used by companies like Google and The Huffington Post.",
+  },
+  {
+    id: "sleep-inertia-nap",
+    question: "Why do I feel worse after napping sometimes?",
+    answer: "Feeling worse after a nap is called sleep inertia\u2014the groggy, disoriented state caused by waking from deep N3 slow-wave sleep. This happens when your nap length traps you in the middle of a sleep cycle rather than at the natural end. Naps of 30-60 minutes are the most dangerous zone: long enough to enter deep sleep but not long enough to complete a full cycle. To avoid sleep inertia, either nap for 20 minutes (stay in light N2) or 90 minutes (complete a full cycle including REM). Anything in between will likely leave you more tired than before.",
+  },
+  {
+    id: "best-time-of-day-nap",
+    question: "What is the best time of day to take a power nap?",
+    answer: "The ideal time for a power nap aligns with your body's natural circadian dip, which occurs roughly 6-8 hours after waking for most people. For someone who wakes at 7:00 AM, the optimal nap window is between 1:00 PM and 3:00 PM. Napping too late (after 4:00 PM) can interfere with your night-time sleep drive, making it harder to fall asleep at your regular bedtime. Early afternoon naps work with your biology rather than against it.",
+  },
+  {
+    id: "power-nap-vs-full-cycle",
+    question: "Should I take a power nap or a full sleep cycle nap?",
+    answer: "Choose based on your goal. A 20-minute power nap is best for a quick alertness boost, improved motor performance, and reduced fatigue\u2014ideal during a workday when you need to get back to a task quickly. A 90-minute full-cycle nap is better when you have more time and want deeper benefits: creativity, emotional processing, memory consolidation, and physical recovery. Power naps are for tactical performance. Full-cycle naps are for strategic restoration. Both are valid; use the one that fits your available time and intended outcome.",
+  },
+];
+
+export const napFaqStructuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": napFaqs.map((faq) => ({
+    "@type": "Question",
+    "name": faq.question,
+    "acceptedAnswer": {
+      "@type": "Answer",
+      "text": faq.answer,
+    },
+  })),
+});
+
 export const faqStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",

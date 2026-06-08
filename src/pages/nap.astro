@@ -2,13 +2,16 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import PowerNapTimer from "../components/PowerNapTimer.astro";
+import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
+import { napFaqs, napFaqStructuredData } from "../lib/faq-data.js";
 ---
 
 <Layout
   title="Power Nap Timer — Sleep Cycle Calculator | ZzzCalc"
   description="Free power nap timer with NASA-backed protocols. Choose a 20-minute power nap, 15-minute coffee nap, or 90-minute full cycle. Wake up refreshed, not groggy."
   canonical="https://zzzcalc.vercel.app/nap"
+  structuredData={[napFaqStructuredData]}
 >
   <Nav />
 
@@ -52,6 +55,53 @@ import Footer from "../components/Footer.astro";
       </div>
     </div>
   </section>
+
+  <section class="pb-12 sm:pb-20">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto" style="color: var(--text-muted); line-height: 1.75;">
+        <h2 class="font-serif text-xl sm:text-2xl tracking-tight mb-4" style="color: var(--text-page);">
+          The science behind strategic napping
+        </h2>
+
+        <p class="text-sm sm:text-base">
+          A power nap is not just a short sleep — it is a biologically timed intervention. The key is understanding sleep inertia, the groggy state that occurs when you wake from deep N3 slow-wave sleep. By limiting your nap to 20 minutes, you stay within the lighter N1 and N2 sleep stages where your brain can reset adenosine levels without descending into the deep sleep that leaves you disoriented. This is the principle that NASA validated in its landmark studies on sleep-deprived pilots.
+        </p>
+
+        <p class="text-sm sm:text-base mt-4">
+          The <strong style="color: var(--text-card);">coffee nap</strong> takes this further. Caffeine blocks adenosine receptors in your brain — the same chemical that builds up throughout the day and makes you feel tired. By drinking coffee immediately before a 15-minute nap, you allow your body to clear some adenosine during sleep while the caffeine reaches peak bloodstream concentration at exactly the moment you wake. The result is a compound alertness boost that studies show outperforms either strategy alone.
+        </p>
+
+        <p class="text-sm sm:text-base mt-4">
+          For deeper restoration, a <strong style="color: var(--text-card);">90-minute full-cycle nap</strong> allows your brain to pass through all sleep stages including REM. This supports creativity, emotional regulation, and memory consolidation. The trade-off is a longer time commitment and a brief period of grogginess as you emerge from REM. Choose your nap length based on your goal: tactical alertness (20 min), maximized efficiency (15 min coffee nap), or deep cognitive recovery (90 min).
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="pb-12 sm:pb-20">
+    <div class="container-main">
+      <div class="max-w-2xl mx-auto">
+        <a href="/" class="card-primary block transition-all hover:opacity-90" style="text-decoration: none;">
+          <div class="flex items-center gap-4">
+            <div class="text-3xl shrink-0">🌙</div>
+            <div>
+              <h3 class="font-serif text-lg sm:text-xl tracking-tight" style="color: var(--text-card);">
+                Try the full sleep cycle calculator
+              </h3>
+              <p class="text-sm mt-1" style="color: var(--text-card-muted);">
+                Plan your entire night's sleep with cycle-aligned bedtimes and wake times. Works for shift workers, parents, and anyone who wants to wake up refreshed.
+              </p>
+              <span class="inline-flex items-center gap-1 text-xs font-medium mt-2" style="color: var(--color-primary);">
+                Calculate your ideal bedtime →
+              </span>
+            </div>
+          </div>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <FAQ faqs={napFaqs} subtitle="About power napping, coffee naps, and sleep inertia." />
 
   <Footer />
 </Layout>
