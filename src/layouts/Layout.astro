@@ -130,7 +130,7 @@ const ldJson = JSON.stringify({
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to main content</a>
-    <slot />
+    <main id="main-content"><slot /></main>
     {!noTrack && <ConsentBanner />}
   </body>
 </html>

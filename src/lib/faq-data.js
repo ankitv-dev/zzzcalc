@@ -34,6 +34,41 @@ export const faqs = [
     question: "Does my sleep cycle change as I get older?",
     answer: "Yes. As humans age, the production of growth hormones and melatonin drops naturally. This results in a significant reduction in deep N3 slow-wave sleep and causes sleep to become more fragmented. While infants require up to 17 hours of sleep to facilitate rapid neurological development, healthy adults require 7 to 9 hours, and seniors typically settle into 7 to 8 hours.",
   },
+  {
+    id: "do-we-sleep-90-min-cycles",
+    question: "Do we sleep in 90 minute cycles?",
+    answer: "Yes, humans sleep in approximately 90-minute cycles (ranging from 80 to 110 minutes). Each cycle progresses through light sleep (N1 and N2), deep slow-wave sleep (N3), and REM (dream) sleep before your brain briefly rouses near wakefulness and begins the next cycle. A healthy adult repeats this pattern 4 to 6 times per night. This is why ZzzCalc uses 90-minute increments to calculate your optimal bedtime\u2014waking at the natural end of a cycle leaves you feeling refreshed rather than groggy.",
+  },
+  {
+    id: "is-3-hours-a-sleep-cycle",
+    question: "Is 3 hours a sleep cycle?",
+    answer: "No, 3 hours is not a single sleep cycle\u2014it is roughly two complete cycles. Since a full sleep cycle averages 90 minutes, sleeping for 3 hours allows your brain to complete two full cycles (180 minutes). Waking after exactly 3 hours could place you at the end of a REM phase or potentially in the middle of deep N3 sleep, depending on your individual sleep onset latency. For the best results, aim for an odd multiple of 90 minutes (1.5, 3, 4.5, 6, 7.5, or 9 hours) to maximize your chance of waking at a cycle boundary.",
+  },
+  {
+    id: "5-stages-of-sleep-cycle",
+    question: "What are the 5 stages of the sleep cycle?",
+    answer: "The traditional 5-stage sleep cycle model consists of Wake, N1 (light sleep / falling asleep), N2 (stable light sleep / core rest), N3 (deep slow-wave sleep / physical restoration), and REM (rapid eye movement / dreaming and memory consolidation). More recent classifications merge N3 with N4 into a single deep-sleep stage, giving the modern 4-stage model: N1, N2, N3, and REM. Regardless of the naming convention, your brain cycles through these stages every 90 minutes throughout the night. ZzzCalc helps you schedule sleep so you wake during a light-sleep transition rather than during deep N3 or REM.",
+  },
+  {
+    id: "4-cycles-of-sleep-calculate",
+    question: "What are the 4 cycles of sleep? How do I calculate my sleep cycle?",
+    answer: "The 4 cycles of sleep refer to the modern classification: N1 (light sleep), N2 (stable sleep), N3 (deep slow-wave sleep), and REM (dreaming). To calculate your sleep cycle, count backward in 90-minute increments from your desired wake time. For example, if you need to wake at 7:00 AM, your optimal bedtimes are 9:30 PM (6 cycles / 9 hours), 11:00 PM (5 cycles / 7.5 hours), or 12:30 AM (4 cycles / 6 hours). ZzzCalc automates this calculation and factors in your personal sleep latency so you get a bedtime tailored to exactly when you actually fall asleep.",
+  },
+  {
+    id: "3-3-3-rule-sleep",
+    question: "What is the 3-3-3 rule for sleep?",
+    answer: "The 3-3-3 rule is a behavioral technique used to help people fall asleep faster, particularly those with insomnia or anxiety. It involves three steps: (1) Lie in bed and focus on where your body meets the mattress for 3 minutes\u2014notice the pressure, temperature, and texture without judgment. (2) Gently shift your attention to your breathing for 3 minutes\u2014inhale, pause, exhale slowly without forcing a rhythm. (3) Spend the final 3 minutes doing a body scan from your forehead down to your toes, relaxing each muscle group in turn. By the end of 9 minutes, most people\u2019s parasympathetic nervous system has engaged enough to drift into N1 sleep naturally.",
+  },
+  {
+    id: "good-sleep-cycle-time",
+    question: "What is a good sleep cycle time?",
+    answer: "A good sleep cycle time is any duration that is an odd multiple of 90 minutes: 1.5 hours (1 cycle), 3 hours (2 cycles), 4.5 hours (3 cycles), 6 hours (4 cycles), 7.5 hours (5 cycles), or 9 hours (6 cycles). For most adults, 7.5 hours (5 cycles) or 9 hours (6 cycles) are the healthiest targets, as they provide sufficient deep N3 sleep for physical recovery and enough REM for cognitive function and emotional processing. Shorter durations like 4.5 or 6 hours can work occasionally but are not sustainable for long-term health. Use ZzzCalc to align your bedtime with a complete cycle count rather than waking mid-cycle.",
+  },
+  {
+    id: "is-930-to-430-enough-sleep",
+    question: "Is 9:30 PM to 4:30 AM enough sleep?",
+    answer: "9:30 PM to 4:30 AM is 7 hours in bed, which typically yields about 6 hours and 46 minutes of actual sleep after accounting for average sleep latency (14 minutes) and brief nighttime awakenings. That falls roughly between 4 cycles (6 hours) and 5 cycles (7.5 hours), so your body may be waking mid-REM or late in a deep-sleep phase depending on the night. For most adults, 7.5 hours (5 cycles) is a healthier baseline. Pushing your bedtime to 10:00 PM (for a 7.5-hour target) or shifting your wake time to 5:00 AM would land you at a cleaner cycle boundary and likely leave you feeling more rested.",
+  },
 ];
 
 export const faqStructuredData = JSON.stringify({
