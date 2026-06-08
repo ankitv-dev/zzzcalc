@@ -127,10 +127,12 @@ export const napFaqStructuredData = JSON.stringify({
   })),
 });
 
+const topFaqs = faqs.slice(0, 10);
+
 export const faqStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",
-  "mainEntity": faqs.map((faq) => ({
+  "mainEntity": topFaqs.map((faq) => ({
     "@type": "Question",
     "name": faq.question,
     "acceptedAnswer": {
