@@ -69,6 +69,16 @@ export const faqs = [
     question: "Is 9:30 PM to 4:30 AM enough sleep?",
     answer: "9:30 PM to 4:30 AM is 7 hours in bed, which typically yields about 6 hours and 46 minutes of actual sleep after accounting for average sleep latency (14 minutes) and brief nighttime awakenings. That falls roughly between 4 cycles (6 hours) and 5 cycles (7.5 hours), so your body may be waking mid-REM or late in a deep-sleep phase depending on the night. For most adults, 7.5 hours (5 cycles) is a healthier baseline. Pushing your bedtime to 10:00 PM (for a 7.5-hour target) or shifting your wake time to 5:00 AM would land you at a cleaner cycle boundary and likely leave you feeling more rested.",
   },
+  {
+    id: "what-time-should-i-wake-up",
+    question: "What time should I wake up?",
+    answer: "The best time to wake up depends on when you go to bed and how many 90-minute sleep cycles your body will complete. If you go to bed at 10:00 PM, ideal wake times are 5:30 AM (5 cycles), 7:00 AM (6 cycles), or 8:30 AM (7 cycles). If you go to bed at 11:00 PM, aim for 6:30 AM (5 cycles) or 8:00 AM (6 cycles). The key is waking at the end of a full cycle rather than in the middle of deep sleep. Use a bedtime calculator like ZzzCalc to enter your specific bedtime and get a personalized wake-up time that leaves you refreshed rather than groggy.",
+  },
+  {
+    id: "what-time-should-i-go-to-sleep",
+    question: "What time should I go to sleep?",
+    answer: "What time you should go to sleep depends on when you need to wake up. Working backward in 90-minute sleep cycles, if you need to wake at 6:00 AM, your optimal bedtimes are 8:30 PM (6 cycles / 9 hours), 10:00 PM (5 cycles / 7.5 hours), or 11:30 PM (4 cycles / 6 hours). For a 7:00 AM wake-up, go to bed at 9:30 PM (6 cycles), 11:00 PM (5 cycles), or 12:30 AM (4 cycles). A sleep calculator like ZzzCalc factors in your age and how long it takes you to fall asleep, giving you a bedtime tailored to your biology rather than a generic recommendation.",
+  },
 ];
 
 export const napFaqs = [
