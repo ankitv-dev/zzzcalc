@@ -129,6 +129,19 @@ export const napFaqStructuredData = JSON.stringify({
 
 const topFaqs = faqs.slice(0, 10);
 
+export function breadcrumbStructuredData(items) {
+  return JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": items.map((item, i) => ({
+      "@type": "ListItem",
+      "position": i + 1,
+      "name": item.name,
+      "item": item.url,
+    })),
+  });
+}
+
 export const faqStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "FAQPage",

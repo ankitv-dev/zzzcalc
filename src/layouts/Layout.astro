@@ -9,6 +9,8 @@ export interface Props {
   ogImage?: string;
   noTrack?: boolean;
   structuredData?: string[];
+  robots?: string;
+  keywords?: string;
 }
 
 const siteUrl = "https://zzzcalc.vercel.app";
@@ -19,10 +21,12 @@ const {
   ogImage = `${siteUrl}/og-image.png`,
   noTrack = false,
   structuredData = [],
+  robots = "index, follow",
+  keywords = "sleep calculator, bedtime calculator, sleep cycle calculator, REM cycle calculator, wake up refreshed, what time should I go to sleep, power nap timer, sleep schedule",
 } = Astro.props;
 
 const shouldAutoLoad = !noTrack;
-const ldJson = JSON.stringify({
+const ldWebApplication = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "WebApplication",
   "name": "ZzzCalc Sleep Cycle Calculator",
@@ -40,6 +44,22 @@ const ldJson = JSON.stringify({
     "@type": "Organization",
     "name": "ZzzCalc"
   }
+});
+
+const ldWebSite = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "ZzzCalc",
+  "url": siteUrl,
+  "description": description,
+});
+
+const ldOrganization = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "ZzzCalc",
+  "url": siteUrl,
+  "description": description,
 });
 ---
 
@@ -65,6 +85,8 @@ const ldJson = JSON.stringify({
     </script>
     <title>{title}</title>
     <meta name="description" content={description} />
+    <meta name="robots" content={robots} />
+    <meta name="keywords" content={keywords} />
     <meta name="theme-color" content="#181715" />
 
     <link rel="canonical" href={canonical} />
@@ -91,7 +113,9 @@ const ldJson = JSON.stringify({
     <meta name="twitter:image" content={ogImage} />
 
     <!-- JSON-LD Structured Data -->
-    <script type="application/ld+json" set:html={ldJson}></script>
+    <script type="application/ld+json" set:html={ldWebApplication}></script>
+    <script type="application/ld+json" set:html={ldWebSite}></script>
+    <script type="application/ld+json" set:html={ldOrganization}></script>
     {structuredData?.map((data) => (
       <script type="application/ld+json" set:html={data}></script>
     ))}

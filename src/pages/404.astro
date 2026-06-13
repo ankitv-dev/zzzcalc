@@ -2,9 +2,21 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import { breadcrumbStructuredData } from "../lib/faq-data.js";
 ---
 
-<Layout title="404 — Page Not Found | ZzzCalc" description="The page you are looking for does not exist." canonical="https://zzzcalc.vercel.app/404">
+<Layout
+  title="404 — Page Not Found | ZzzCalc"
+  description="The page you are looking for does not exist."
+  canonical="https://zzzcalc.vercel.app/404"
+  robots="noindex, follow"
+  structuredData={[
+    breadcrumbStructuredData([
+      { name: "Home", url: "https://zzzcalc.vercel.app" },
+      { name: "404 — Page Not Found", url: "https://zzzcalc.vercel.app/404" },
+    ]),
+  ]}
+>
   <Nav />
 
   <section class="pt-28 pb-24 sm:pt-40 sm:pb-32">

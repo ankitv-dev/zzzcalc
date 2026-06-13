@@ -30,7 +30,8 @@ pnpm-debug.log*
 *~
 
 # design reference (untracked)
-/DESIGN.md
+DESIGN.md
+AGENTS.md
 
 # build output
 public/og-image.png

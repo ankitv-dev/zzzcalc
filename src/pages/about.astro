@@ -2,12 +2,19 @@
 import Layout from "../layouts/Layout.astro";
 import Nav from "../components/Nav.astro";
 import Footer from "../components/Footer.astro";
+import { breadcrumbStructuredData } from "../lib/faq-data.js";
 ---
 
 <Layout
   title="About — ZzzCalc"
   description="About ZzzCalc, a free sleep cycle calculator built on 90-minute REM cycle science. No ads, no tracking, no accounts. Just better mornings."
   canonical="https://zzzcalc.vercel.app/about"
+  structuredData={[
+    breadcrumbStructuredData([
+      { name: "Home", url: "https://zzzcalc.vercel.app" },
+      { name: "About", url: "https://zzzcalc.vercel.app/about" },
+    ]),
+  ]}
 >
   <Nav />
 

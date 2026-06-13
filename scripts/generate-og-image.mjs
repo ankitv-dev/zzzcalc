@@ -38,7 +38,7 @@ const html = `<!DOCTYPE html>
   <div class="canvas">
     <div class="title">Sleep Cycle Calculator</div>
     <div class="subtitle">Wake up refreshed. Every time.</div>
-    <div class="button">zzzcalc.com</div>
+    <div class="button">zzzcalc.vercel.app</div>
     <div class="dot" style="left:180px; top:120px; width:16px; height:16px; background:#cc785c; opacity:0.6;"></div>
     <div class="dot" style="left:220px; top:100px; width:10px; height:10px; background:#cc785c; opacity:0.3;"></div>
     <div class="dot" style="left:160px; top:90px; width:8px; height:8px; background:#faf9f5; opacity:0.4;"></div>

@@ -4,14 +4,20 @@ import Nav from "../components/Nav.astro";
 import PowerNapTimer from "../components/PowerNapTimer.astro";
 import FAQ from "../components/FAQ.astro";
 import Footer from "../components/Footer.astro";
-import { napFaqs, napFaqStructuredData } from "../lib/faq-data.js";
+import { napFaqs, napFaqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js";
 ---
 
 <Layout
   title="Power Nap Timer — Sleep Cycle Calculator | ZzzCalc"
   description="Free power nap timer with NASA-backed protocols. Choose a 20-minute power nap, coffee nap, or 90-minute full sleep cycle. Wake up refreshed, not groggy."
   canonical="https://zzzcalc.vercel.app/nap"
-  structuredData={[napFaqStructuredData]}
+  structuredData={[
+    napFaqStructuredData,
+    breadcrumbStructuredData([
+      { name: "Home", url: "https://zzzcalc.vercel.app" },
+      { name: "Power Nap Timer", url: "https://zzzcalc.vercel.app/nap" },
+    ]),
+  ]}
 >
   <Nav />
 
