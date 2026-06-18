@@ -1,12 +1,10 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
 import Hero from "../components/Hero.astro";
 import Features from "../components/Features.astro";
 import ScienceCard from "../components/ScienceCard.astro";
 import Calculator from "../components/Calculator.astro";
 import FAQ from "../components/FAQ.astro";
-import Footer from "../components/Footer.astro";
 import { faqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js";
 ---
 
@@ -21,7 +19,6 @@ import { faqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js"
     ]),
   ]}
 >
-  <Nav />
   <Hero />
 
   <section id="calculator" class="py-6 sm:py-12">
@@ -61,5 +58,4 @@ import { faqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js"
   <Features />
   <FAQ />
   <ScienceCard />
-  <Footer />
 </Layout>

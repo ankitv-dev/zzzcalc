@@ -1,7 +1,5 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Footer from "../components/Footer.astro";
 import { breadcrumbStructuredData } from "../lib/faq-data.js";
 ---
 
@@ -16,8 +14,6 @@ import { breadcrumbStructuredData } from "../lib/faq-data.js";
     ]),
   ]}
 >
-  <Nav />
-
   <section class="pt-28 pb-16 sm:pt-40 sm:pb-24">
     <div class="container-main">
       <div class="max-w-3xl mx-auto">
@@ -60,5 +56,4 @@ import { breadcrumbStructuredData } from "../lib/faq-data.js";
     </div>
   </section>
 
-  <Footer />
 </Layout>

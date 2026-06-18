@@ -1,9 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
 import PowerNapTimer from "../components/PowerNapTimer.astro";
 import FAQ from "../components/FAQ.astro";
-import Footer from "../components/Footer.astro";
 import { napFaqs, napFaqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js";
 ---
 
@@ -19,8 +17,6 @@ import { napFaqs, napFaqStructuredData, breadcrumbStructuredData } from "../lib/
     ]),
   ]}
 >
-  <Nav />
-
   <section class="pt-28 pb-12 sm:pt-40 sm:pb-20">
     <div class="container-main">
       <div class="max-w-2xl mx-auto">
@@ -108,6 +104,4 @@ import { napFaqs, napFaqStructuredData, breadcrumbStructuredData } from "../lib/
   </section>
 
   <FAQ faqs={napFaqs} subtitle="About power napping, coffee naps, and sleep inertia." />
-
-  <Footer />
 </Layout>
