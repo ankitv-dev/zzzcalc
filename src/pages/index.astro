@@ -9,9 +9,10 @@ import { faqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js"
 ---
 
 <Layout
-  title="Sleep Calculator — Bedtime Calculator & Wake-Up Time | ZzzCalc"
-  description="What time should you go to sleep? ZzzCalc is a free sleep &amp; bedtime calculator based on 90-minute REM cycles. Find your ideal bedtime or wake-up time."
+  title="Free Sleep Calculator — Bedtime & Wake-Up Time | ZzzCalc"
+  description="Free sleep calculator and bedtime calculator based on 90-minute REM sleep cycles. Find your ideal bedtime or wake-up time. Wake up refreshed, not groggy."
   canonical="https://zzzcalc.vercel.app"
+  keywords="sleep calculator, bedtime calculator, sleep cycle calculator, free sleep calculator, REM cycle calculator, wake up refreshed, what time should I go to sleep, sleep time calculator, bedtime calculator free, sleep calc"
   structuredData={[
     faqStructuredData,
     breadcrumbStructuredData([
@@ -51,6 +52,188 @@ import { faqStructuredData, breadcrumbStructuredData } from "../lib/faq-data.js"
         <p class="text-sm sm:text-base mt-4">
           The same math applies whether you are a shift worker planning daytime sleep, a parent working around a newborn, or someone trying to shake off that mid-afternoon slump with a power nap. No account needed. No data tracked. Just the calculation.
         </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 sm:py-20" style="background: var(--bg-soft);">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="font-serif text-xl sm:text-2xl tracking-tight mb-6 text-center" style="color: var(--text-page);">
+          How to use this sleep calculator
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+          <div class="card-primary text-center">
+            <span class="text-2xl font-bold" style="color: var(--color-primary);">1</span>
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mt-2 mb-1" style="color: var(--text-card);">Choose your mode</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              Select "I want to wake up at" to find your ideal bedtime, or "I'm going to bed now" to calculate your optimal wake time. Enter the time or use the <strong>Now</strong> button for instant results.
+            </p>
+          </div>
+          <div class="card-primary text-center">
+            <span class="text-2xl font-bold" style="color: var(--color-primary);">2</span>
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mt-2 mb-1" style="color: var(--text-card);">Set your latency</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              Adjust the <strong>sleep latency</strong> slider to match how long you typically take to fall asleep — from 5 minutes (fast sleeper) to 45 minutes (slow sleeper). The default 14 minutes matches the scientific average.
+            </p>
+          </div>
+          <div class="card-primary text-center">
+            <span class="text-2xl font-bold" style="color: var(--color-primary);">3</span>
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mt-2 mb-1" style="color: var(--text-card);">Pick your schedule</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              Review your cycle-aligned options — from 4 to 6 cycles — each with a quality rating. Tap any result to see a visual <strong>sleep timeline</strong> showing N1, N2, deep sleep, and REM stages. Copy your chosen time with one tap.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 sm:py-20">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto" style="color: var(--text-muted); line-height: 1.75;">
+        <h2 class="font-serif text-xl sm:text-2xl tracking-tight mb-4 text-center" style="color: var(--text-page);">
+          Sleep calculator examples
+        </h2>
+        <p class="text-sm sm:text-base text-center mb-8 max-w-lg mx-auto">
+          Here is what the calculator recommends for common wake-up and bedtime scenarios. Your personal results may vary based on your sleep latency setting.
+        </p>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-3" style="color: var(--text-card);">
+              Wake up at 6:00 AM
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Optimal bedtime</span>
+                <span style="color: var(--text-card); font-weight: 500;">8:46 PM</span>
+                <span class="text-xs" style="color: var(--color-primary);">6 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Recommended bedtime</span>
+                <span style="color: var(--text-card); font-weight: 500;">10:16 PM</span>
+                <span class="text-xs" style="color: var(--color-primary);">5 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5">
+                <span style="color: var(--text-card-muted);">Minimum bedtime</span>
+                <span style="color: var(--text-card); font-weight: 500;">11:46 PM</span>
+                <span class="text-xs" style="color: var(--color-primary);">4 cycles</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-3" style="color: var(--text-card);">
+              Wake up at 7:00 AM
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Optimal bedtime</span>
+                <span style="color: var(--text-card); font-weight: 500;">9:46 PM</span>
+                <span class="text-xs" style="color: var(--color-primary);">6 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Recommended bedtime</span>
+                <span style="color: var(--text-card); font-weight: 500;">11:16 PM</span>
+                <span class="text-xs" style="color: var(--color-primary);">5 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5">
+                <span style="color: var(--text-card-muted);">Minimum bedtime</span>
+                <span style="color: var(--text-card); font-weight: 500;">12:46 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">4 cycles</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-3" style="color: var(--text-card);">
+              Going to bed at 10:00 PM
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Optimal wake time</span>
+                <span style="color: var(--text-card); font-weight: 500;">7:44 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">6 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Recommended wake time</span>
+                <span style="color: var(--text-card); font-weight: 500;">6:14 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">5 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5">
+                <span style="color: var(--text-card-muted);">Minimum wake time</span>
+                <span style="color: var(--text-card); font-weight: 500;">4:44 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">4 cycles</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-3" style="color: var(--text-card);">
+              Going to bed at 11:00 PM
+            </h3>
+            <div class="space-y-2 text-sm">
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Optimal wake time</span>
+                <span style="color: var(--text-card); font-weight: 500;">8:44 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">6 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5" style="border-bottom: 1px solid var(--border-card);">
+                <span style="color: var(--text-card-muted);">Recommended wake time</span>
+                <span style="color: var(--text-card); font-weight: 500;">7:14 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">5 cycles</span>
+              </div>
+              <div class="flex justify-between py-1.5">
+                <span style="color: var(--text-card-muted);">Minimum wake time</span>
+                <span style="color: var(--text-card); font-weight: 500;">5:44 AM</span>
+                <span class="text-xs" style="color: var(--color-primary);">4 cycles</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <p class="text-xs mt-6 text-center" style="color: var(--text-muted-soft);">
+          Calculations assume 14-minute sleep latency. Adjust the latency slider in the calculator above for personalized results.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-12 sm:py-20" style="background: var(--bg-soft);">
+    <div class="container-main">
+      <div class="max-w-3xl mx-auto" style="color: var(--text-muted); line-height: 1.75;">
+        <h2 class="font-serif text-xl sm:text-2xl tracking-tight mb-4 text-center" style="color: var(--text-page);">
+          Who should use a sleep cycle calculator?
+        </h2>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 mt-6">
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-1" style="color: var(--text-card);">Early risers and morning people</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              If your alarm goes off at 5:00 AM or 6:00 AM, finding the right bedtime is critical. A <strong>sleep calculator for wake time</strong> tells you exactly when to go to bed so you wake at a cycle boundary — no more groggy 5 AM starts.
+            </p>
+          </div>
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-1" style="color: var(--text-card);">Shift workers and night owls</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              Irregular schedules make sleep timing harder. Use the calculator in reverse mode — tell it when you are going to bed and get your <strong>optimal wake-up time</strong> to maximize rest within your available window.
+            </p>
+          </div>
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-1" style="color: var(--text-card);">New parents</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              When your sleep is broken into fragments, every minute counts. A <strong>sleep cycle calculator</strong> helps new parents time their rest between feedings so they wake from naps feeling somewhat restored rather than completely drained.
+            </p>
+          </div>
+          <div class="card-primary">
+            <h3 class="font-serif text-base sm:text-lg tracking-tight mb-1" style="color: var(--text-card);">Students and busy professionals</h3>
+            <p class="text-xs sm:text-sm leading-relaxed" style="color: var(--text-card-muted);">
+              Tight schedules often push sleep to the bottom of the priority list. Use ZzzCalc to find the <strong>best bedtime for your wake time</strong> — whether you need 6, 7.5, or 9 hours — and make every hour of sleep count.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </section>

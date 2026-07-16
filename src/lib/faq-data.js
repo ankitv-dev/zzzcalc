@@ -127,7 +127,40 @@ export const napFaqStructuredData = JSON.stringify({
   })),
 });
 
-const topFaqs = faqs.slice(0, 10);
+const additionalFaqs = [
+  {
+    id: "what-is-sleep-calculator",
+    question: "What is a sleep calculator and how does it work?",
+    answer: "A sleep calculator is a tool that helps you find the best time to go to bed or wake up based on your sleep cycles. Human sleep operates in 90-minute cycles. A sleep cycle calculator works backward from your desired wake time in 90-minute increments to find bedtimes that align with the end of a cycle, so you wake up feeling refreshed instead of groggy. ZzzCalc adds your personal sleep latency (how long it takes you to fall asleep) for a truly customized result.",
+  },
+  {
+    id: "how-to-calculate-sleep-cycles",
+    question: "How do I calculate my sleep cycles manually?",
+    answer: "To calculate your sleep cycles manually, start with your desired wake time and count backward in 90-minute steps. For example, if you want to wake at 7:00 AM: subtract 14 minutes (average sleep latency) to get 6:46 AM, then subtract 90 minutes (1 cycle) to get 5:16 AM, another 90 minutes (2 cycles) for 3:46 AM, and so on. Each 90-minute block represents one complete sleep cycle. Bedtimes that land at 4.5, 6, 7.5, or 9 hours before your wake time are your cycle-aligned options. A sleep calculator automates this math and adjusts for your personal fall-asleep time.",
+  },
+  {
+    id: "best-sleep-schedule",
+    question: "What is the best sleep schedule for adults?",
+    answer: "The best sleep schedule for adults aligns with your natural circadian rhythm and allows for 5-6 complete 90-minute sleep cycles (7.5 to 9 hours). Most adults feel best waking between 6:00 AM and 8:00 AM and going to bed between 9:30 PM and 11:30 PM. Use a bedtime calculator to find your personal window: if you wake at 6:00 AM, aim for bed at 8:46 PM (6 cycles), 10:16 PM (5 cycles), or 11:46 PM (4 cycles). Consistency matters more than the exact hour — going to bed and waking at the same times every day reinforces your body's natural sleep-wake rhythm.",
+  },
+  {
+    id: "how-many-hours-sleep-by-age",
+    question: "How many hours of sleep do I need by age?",
+    answer: "Sleep needs change across your lifetime according to NSF guidelines. Newborns (0-3 months) need 14-17 hours, infants (4-11 months) need 12-15 hours, toddlers (1-2 years) need 11-14 hours, preschoolers (3-5 years) need 10-13 hours, school-age children (6-13 years) need 9-11 hours, teenagers (14-17 years) need 8-10 hours, adults (18-64 years) need 7-9 hours, and seniors (65+) need 7-8 hours. A sleep cycle calculator by age like ZzzCalc adjusts its cycle recommendations based on your age group for more personalized results.",
+  },
+  {
+    id: "sleep-calculator-shift-workers",
+    question: "Can shift workers use a sleep cycle calculator?",
+    answer: "Yes, a sleep calculator is especially valuable for shift workers who need to sleep during non-standard hours. The reverse mode is particularly useful: enter the time you plan to go to bed and the calculator tells you your optimal wake-up times based on 90-minute cycles. For example, if a night shift worker goes to bed at 9:00 AM, the calculator recommends waking at 12:14 PM (2 cycles), 1:44 PM (3 cycles), or 3:14 PM (4 cycles). This helps maximize recovery sleep even with an irregular schedule.",
+  },
+  {
+    id: "how-does-bedtime-calculator-work",
+    question: "How does a bedtime calculator work?",
+    answer: "A bedtime calculator works by taking your desired wake-up time and counting backward in 90-minute sleep cycles. Each cycle represents the time your brain needs to move through light sleep (N1, N2), deep slow-wave sleep (N3), and REM dreaming sleep. The calculator also factors in sleep latency — the 14 minutes on average it takes to fall asleep. So if you enter 7:00 AM as your wake time, the bedtime calculator adds 14 minutes of latency, then subtracts 7.5 hours (5 cycles) to recommend a bedtime of 11:16 PM. This ensures you wake at a cycle boundary rather than mid-deep-sleep.",
+  },
+];
+
+const topFaqs = [...faqs.slice(0, 12), ...additionalFaqs];
 
 export function breadcrumbStructuredData(items) {
   return JSON.stringify({

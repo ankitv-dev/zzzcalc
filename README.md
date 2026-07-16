@@ -1,4 +1,4 @@
-# ZzzCalc — Wake Up Refreshed
+# ZzzCalc — Free Sleep Calculator & Bedtime Calculator
 
 A privacy-first, open-source sleep cycle calculator based on 90-minute REM cycles. Built with Astro + Tailwind CSS v4.
 
@@ -17,21 +17,40 @@ A privacy-first, open-source sleep cycle calculator based on 90-minute REM cycle
 - **Keyboard accessible** — focus-visible rings, skip-to-content link, screen-reader labels
 - **Responsive** — mobile-first layout works on all screen sizes
 
-## Comparison
+## SEO & Search Compliance
 
-| Feature | ZzzCalc | calculator.net | sleepcalculator.com | sleepytime.cc |
-|---|---|---|---|---|
-| Dual-mode calc | ✓ | ✓ | ✓ | ✓ |
-| Power nap timer | ✓ | ✗ | ✗ | ✗ |
-| Visual cycle timeline | ✓ | ✗ | ✗ | ✗ |
-| Adjustable latency | ✓ (5–45 min) | ✓ | ✗ | ✗ |
-| Dark/light theme | ✓ | ✗ | ✗ | ✗ |
-| Open source | ✓ (GPL v3) | ✗ | ✗ | ✗ |
-| Privacy-first | ✓ (opt-in GA) | ✗ (ads) | ✗ (no info) | unknown |
-| Age-based guidelines | ✗ | ✓ | ✗ | ✗ |
-| Hours-based calculator | ✗ | ✓ | ✗ | ✗ |
-| Skip-to-content / a11y | ✓ | ✗ | ✗ | ✗ |
-| Mobile-friendly | ✓ | partial | ✓ | ✓ |
+Optimized for Google and Bing:
+
+| Requirement | Status |
+|---|---|
+| Unique page titles | ✅ Every page |
+| Meta descriptions | ✅ Unique per page |
+| Canonical URLs | ✅ All pages |
+| OG tags (title, desc, image, url, type, site_name, locale) | ✅ |
+| Twitter Cards (summary_large_image) | ✅ |
+| JSON-LD: WebApplication | ✅ All pages |
+| JSON-LD: WebSite | ✅ All pages |
+| JSON-LD: Organization | ✅ All pages |
+| JSON-LD: FAQPage | ✅ Homepage (18 Qs), Nap page (6 Qs) |
+| JSON-LD: BreadcrumbList | ✅ All pages |
+| robots.txt | ✅ Allows all, disallows /404 /500 |
+| XML Sitemap | ✅ Auto-generated, 6 URLs |
+| OG image | ✅ 2400×1260 @2x |
+| Favicons (SVG, ICO, PNG, Apple touch) | ✅ Complete set |
+| PWA manifest | ✅ Dark theme, standalone |
+| Google Search Console | ✅ Verified |
+| H1 headings | ✅ Keyword-optimized per page |
+| Semantic heading structure | ✅ H1 → H2 → H3 |
+| Static calculator examples | ✅ 4 example cards in HTML |
+| Content depth | ✅ 1500+ words on homepage |
+| `lang="en"` | ✅ |
+| `meta author` | ✅ |
+| `meta robots` | ✅ index,follow (noindex on 404/500) |
+| `meta keywords` | ✅ Page-specific |
+| Skip-to-content | ✅ |
+| `aria-label` on nav | ✅ |
+| `prefers-reduced-motion` | ✅ |
+| Internal links | ✅ All nav + footer + content CTAs |
 
 ## Tech Stack
 
@@ -39,7 +58,7 @@ A privacy-first, open-source sleep cycle calculator based on 90-minute REM cycle
 - [Tailwind CSS](https://tailwindcss.com) v4 via `@tailwindcss/vite` plugin
 - Vanilla JS for interactivity (no React/Vue/Svelte/client directives)
 - [Playwright](https://playwright.dev) for OG image generation
-- [Vercel](https://vercel.com) — hosting and deployment (Vercel toolbar disabled)
+- [Vercel](https://vercel.com) — hosting and deployment
 - [Google Analytics 4](https://analytics.google.com) — anonymized, opt-in page-view analytics
 
 ## Performance
@@ -47,6 +66,7 @@ A privacy-first, open-source sleep cycle calculator based on 90-minute REM cycle
 - LCP: ~600ms | CLS: ~0.001 | TTFB: ~11ms
 - Fully static HTML output (8 pages)
 - No client-side framework overhead
+- Google Fonts preloaded with preconnect hints
 
 ## Accessibility
 
@@ -65,47 +85,49 @@ A privacy-first, open-source sleep cycle calculator based on 90-minute REM cycle
 | `npm run dev` | Start dev server at `localhost:4321` |
 | `npm run build` | Build to `./dist/` |
 | `npm run preview` | Preview production build |
+| `npm run format` | Format with Prettier |
+| `npm run format:check` | Check formatting |
 
 ## Project Structure
 
 ```
 src/
-├── components/       # 9 reusable Astro components
-│   ├── Calculator.astro      — Dual-mode sleep cycle calculator
-│   ├── ConsentBanner.astro   — GA opt-in/opt-out consent banner
-│   ├── FAQ.astro             — 7-item FAQ with JSON-LD structured data
-│   ├── Features.astro        — Feature cards grid
-│   ├── Footer.astro          — 4-column site footer
-│   ├── Hero.astro            — Landing page hero section
-│   ├── Nav.astro             — Navigation with theme toggle
-│   ├── PowerNapTimer.astro   — Countdown timer with SVG ring
-│   └── ScienceCard.astro     — Sleep science explainer
+├── components/       # 9 active Astro components
+│   ├── Calculator.astro         — Dual-mode sleep cycle calculator
+│   ├── ConsentBanner.astro      — GA opt-in/opt-out consent banner
+│   ├── FAQ.astro                — Reusable FAQ accordion
+│   ├── Features.astro           — Feature cards grid
+│   ├── Footer.astro             — Site footer with nav
+│   ├── Hero.astro               — Landing page hero (H1)
+│   ├── PowerNapTimer.astro      — Countdown timer with SVG ring
+│   └── ScienceCard.astro        — Sleep science explainer
 ├── layouts/
-│   └── Layout.astro          — HTML shell, OG tags, fonts, GA, no-flash theme
+│   └── Layout.astro             — HTML shell, meta, OG, JSON-LD, fonts, GA
 ├── lib/
-│   └── cycles.js             — Cycle constants, quality ratings, quick ref
-├── pages/                    # 8 static routes
-│   ├── index.astro           — Home (calculator + features + FAQ + science)
-│   ├── nap.astro             — Power Nap Timer page
-│   ├── about.astro           — About page
-│   ├── contact.astro         — Contact page
-│   ├── privacy.astro         — Privacy Policy
-│   ├── terms.astro           — Terms & Conditions
-│   ├── 404.astro             — Custom 404
-│   └── 500.astro             — Custom 500 error page
+│   ├── cycles.js                — Cycle constants, quality ratings, quick ref
+│   ├── faq-data.js              — FAQ content + JSON-LD builders (18 homepage Qs, 6 nap Qs)
+│   └── format.js                — Time formatting utilities
+├── pages/                       # 8 static routes
+│   ├── index.astro              — Homepage (expanded content + calculator + FAQ)
+│   ├── nap.astro                — Power Nap Timer page
+│   ├── about.astro              — About page
+│   ├── contact.astro            — Contact page
+│   ├── privacy.astro            — Privacy Policy
+│   ├── terms.astro              — Terms & Conditions
+│   ├── 404.astro                — Custom 404
+│   └── 500.astro                — Custom 500 error page
 └── styles/
-    └── global.css            — CSS variables, Tailwind utilities, dark/light themes
+    └── global.css               — Tailwind v4, CSS vars, dark/light themes, utilities
 public/
-├── favicon.svg               — SVG favicon
-├── favicon.ico               — ICO fallback
-├── favicon-96x96.png         — PNG favicon 96px
-├── apple-touch-icon.png      — Apple touch icon
-├── web-app-manifest-192x192.png  — PWA icon
-├── web-app-manifest-512x512.png  — PWA icon
-├── site.webmanifest          — PWA manifest (dark theme)
-├── og-image.png              — Open Graph preview image (2400×1260 @2x)
-├── robots.txt                — Allows all, points to sitemap
-└── google5f771b203862e07b.html — Google Search Console verification
+├── favicon.svg / .ico / -96x96.png
+├── apple-touch-icon.png
+├── web-app-manifest-*.png / site.webmanifest
+├── og-image.png                 — Open Graph preview image
+├── robots.txt                   — Allows all, points to sitemap
+└── google5f771b203862e07b.html  — GSC verification
+scripts/
+├── generate-og-image.mjs        — Playwright-based OG image generator
+└── perf-audit.mjs               — Playwright-based performance audit
 ```
 
 ## License

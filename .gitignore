@@ -32,9 +32,11 @@ pnpm-debug.log*
 # design reference (untracked)
 DESIGN.md
 AGENTS.md
+.agents/
 
 # build output
 public/og-image.png
 
 # OS metadata
 Thumbs.db
+.DS_Store
